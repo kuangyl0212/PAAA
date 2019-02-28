@@ -1,0 +1,53 @@
+@startuml
+
+package "<LANG>Parser Family" {
+Lexer    <..  Parser
+Parser   <..  Listener
+Parser   <..  Visitor
+Listener <|.. BaseListener
+Visitor  <|.. BaseVisitor
+
+Class Parser {
+
+}
+Class Lexer {
+
+}
+
+Interface Visitor<T> {
+    visit<rule>()
+}
+Interface Listener {
+    enter<rule>()
+    exit<rule>()
+}
+
+Class BaseVisitor<T> {
+}
+Class BaseListener {
+}
+
+}
+
+package "Application" {
+
+ListenerGeneric     <|-- ListenerSpec
+VisitorGeneric      <|-- VisitorSpec
+BaseListener <|-- ListenerSpec
+BaseVisitor  <|-- VisitorSpec
+
+Interface ListenerGeneric {
+}
+Interface VisitorGeneric<T> {
+}
+
+
+Class ListenerSpec {
+}
+Class VisitorSpec<T> {
+}
+
+
+}
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+partition ANTLR {
+(*) -->[CharStream]Lexer
+-->[TokenStream]Parser
+}
+partition App {
+-->[ParseTreeContext]Generic Listener/Visitor
+-->[Graph]GraphNormalizer
+-->[NormalizeGraph]GraphMatcher
+-->[Score](*)
+}
+@enduml
