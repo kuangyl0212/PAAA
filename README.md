@@ -4,10 +4,10 @@
 
 ## Development
 
-# Requirements
+### Requirements
 Since we use Java for development, the Java Development Kit(JDK) is required.
 
-# IDE
+### IDE
 We use IntelliJ IDEA, and here is some plugins need to installed:
 * ANTLR v4 grammar plug
 * PlantUML Integration 
