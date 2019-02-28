@@ -1,4 +1,4 @@
-// Generated from /home/amazingrise/IdeaProjects/PAAA/src/main/java/parser/python/Python3.g4 by ANTLR 4.7.2
+// Generated from Python3.g4 by ANTLR 4.7
 package parser.python;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -83,18 +83,6 @@ public class Python3BaseListener implements Python3Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDecorated(Python3Parser.DecoratedContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAsync_funcdef(Python3Parser.Async_funcdefContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAsync_funcdef(Python3Parser.Async_funcdefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -215,18 +203,6 @@ public class Python3BaseListener implements Python3Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpr_stmt(Python3Parser.Expr_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAnnassign(Python3Parser.AnnassignContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAnnassign(Python3Parser.AnnassignContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -491,18 +467,6 @@ public class Python3BaseListener implements Python3Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCompound_stmt(Python3Parser.Compound_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAsync_stmt(Python3Parser.Async_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAsync_stmt(Python3Parser.Async_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -820,18 +784,6 @@ public class Python3BaseListener implements Python3Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAtom_expr(Python3Parser.Atom_exprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAtom_expr(Python3Parser.Atom_exprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAtom(Python3Parser.AtomContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1012,18 +964,6 @@ public class Python3BaseListener implements Python3Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEncoding_decl(Python3Parser.Encoding_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEncoding_decl(Python3Parser.Encoding_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterYield_expr(Python3Parser.Yield_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1043,6 +983,42 @@ public class Python3BaseListener implements Python3Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitYield_arg(Python3Parser.Yield_argContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStr(Python3Parser.StrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStr(Python3Parser.StrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNumber(Python3Parser.NumberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNumber(Python3Parser.NumberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInteger(Python3Parser.IntegerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInteger(Python3Parser.IntegerContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

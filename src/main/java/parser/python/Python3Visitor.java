@@ -1,4 +1,4 @@
-// Generated from /home/amazingrise/IdeaProjects/PAAA/src/main/java/parser/python/Python3.g4 by ANTLR 4.7.2
+// Generated from Python3.g4 by ANTLR 4.7
 package parser.python;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -46,12 +46,6 @@ public interface Python3Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDecorated(Python3Parser.DecoratedContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Python3Parser#async_funcdef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAsync_funcdef(Python3Parser.Async_funcdefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Python3Parser#funcdef}.
 	 * @param ctx the parse tree
@@ -112,12 +106,6 @@ public interface Python3Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpr_stmt(Python3Parser.Expr_stmtContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Python3Parser#annassign}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAnnassign(Python3Parser.AnnassignContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Python3Parser#testlist_star_expr}.
 	 * @param ctx the parse tree
@@ -250,12 +238,6 @@ public interface Python3Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCompound_stmt(Python3Parser.Compound_stmtContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Python3Parser#async_stmt}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAsync_stmt(Python3Parser.Async_stmtContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Python3Parser#if_stmt}.
 	 * @param ctx the parse tree
@@ -413,12 +395,6 @@ public interface Python3Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPower(Python3Parser.PowerContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Python3Parser#atom_expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAtom_expr(Python3Parser.Atom_exprContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Python3Parser#atom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -509,12 +485,6 @@ public interface Python3Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComp_if(Python3Parser.Comp_ifContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Python3Parser#encoding_decl}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEncoding_decl(Python3Parser.Encoding_declContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Python3Parser#yield_expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -526,4 +496,22 @@ public interface Python3Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitYield_arg(Python3Parser.Yield_argContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Python3Parser#str}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStr(Python3Parser.StrContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Python3Parser#number}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumber(Python3Parser.NumberContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Python3Parser#integer}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInteger(Python3Parser.IntegerContext ctx);
 }

@@ -1,4 +1,4 @@
-// Generated from /home/amazingrise/IdeaProjects/PAAA/src/main/java/parser/python/Python3.g4 by ANTLR 4.7.2
+// Generated from Python3.g4 by ANTLR 4.7
 package parser.python;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -67,16 +67,6 @@ public interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDecorated(Python3Parser.DecoratedContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Python3Parser#async_funcdef}.
-	 * @param ctx the parse tree
-	 */
-	void enterAsync_funcdef(Python3Parser.Async_funcdefContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Python3Parser#async_funcdef}.
-	 * @param ctx the parse tree
-	 */
-	void exitAsync_funcdef(Python3Parser.Async_funcdefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Python3Parser#funcdef}.
 	 * @param ctx the parse tree
@@ -177,16 +167,6 @@ public interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpr_stmt(Python3Parser.Expr_stmtContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Python3Parser#annassign}.
-	 * @param ctx the parse tree
-	 */
-	void enterAnnassign(Python3Parser.AnnassignContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Python3Parser#annassign}.
-	 * @param ctx the parse tree
-	 */
-	void exitAnnassign(Python3Parser.AnnassignContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Python3Parser#testlist_star_expr}.
 	 * @param ctx the parse tree
@@ -407,16 +387,6 @@ public interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCompound_stmt(Python3Parser.Compound_stmtContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Python3Parser#async_stmt}.
-	 * @param ctx the parse tree
-	 */
-	void enterAsync_stmt(Python3Parser.Async_stmtContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Python3Parser#async_stmt}.
-	 * @param ctx the parse tree
-	 */
-	void exitAsync_stmt(Python3Parser.Async_stmtContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Python3Parser#if_stmt}.
 	 * @param ctx the parse tree
@@ -678,16 +648,6 @@ public interface Python3Listener extends ParseTreeListener {
 	 */
 	void exitPower(Python3Parser.PowerContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Python3Parser#atom_expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterAtom_expr(Python3Parser.Atom_exprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Python3Parser#atom_expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitAtom_expr(Python3Parser.Atom_exprContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Python3Parser#atom}.
 	 * @param ctx the parse tree
 	 */
@@ -838,16 +798,6 @@ public interface Python3Listener extends ParseTreeListener {
 	 */
 	void exitComp_if(Python3Parser.Comp_ifContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Python3Parser#encoding_decl}.
-	 * @param ctx the parse tree
-	 */
-	void enterEncoding_decl(Python3Parser.Encoding_declContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Python3Parser#encoding_decl}.
-	 * @param ctx the parse tree
-	 */
-	void exitEncoding_decl(Python3Parser.Encoding_declContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Python3Parser#yield_expr}.
 	 * @param ctx the parse tree
 	 */
@@ -867,4 +817,34 @@ public interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitYield_arg(Python3Parser.Yield_argContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#str}.
+	 * @param ctx the parse tree
+	 */
+	void enterStr(Python3Parser.StrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#str}.
+	 * @param ctx the parse tree
+	 */
+	void exitStr(Python3Parser.StrContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#number}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumber(Python3Parser.NumberContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#number}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumber(Python3Parser.NumberContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#integer}.
+	 * @param ctx the parse tree
+	 */
+	void enterInteger(Python3Parser.IntegerContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#integer}.
+	 * @param ctx the parse tree
+	 */
+	void exitInteger(Python3Parser.IntegerContext ctx);
 }
