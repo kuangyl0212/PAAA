@@ -1,6 +1,6 @@
 @startuml
 
-package "<LANG>Parser Family" {
+package "<LANG>parser" {
 Lexer    <..  Parser
 Parser   <..  Listener
 Parser   <..  Visitor
@@ -29,7 +29,21 @@ Class BaseListener {
 
 }
 
-package "Application" {
+package "graph" {
+Edge   o-- BaseGraph
+Vertex o-- BaseGraph
+BaseGraph <|.. CDG
+BaseGraph <|.. SDG
+
+abstract Class BaseGraph
+Class Vertex
+Class Edge
+Class CDG
+Class SDG
+}
+
+
+package "application" {
 
 ListenerGeneric     <|-- ListenerSpec
 VisitorGeneric      <|-- VisitorSpec
@@ -47,7 +61,24 @@ Class ListenerSpec {
 Class VisitorSpec<T> {
 }
 
+GraphBuilder ..> BaseGraph
+
+GraphBuilder <|.. CDGBuilder
+GraphBuilder <|.. SDGBuilder
+
+GraphBuilder ..> ListenerGeneric
+GraphBuilder ..> VisitorGeneric
+
+Grader --> SDG
+
+abstract GraphBuilder
+
+Class CDGBuilder
+Class SDGBuilder
+Class Grader
+
 
 }
+
 
 @enduml
