@@ -34,25 +34,31 @@ Edge   o-- BaseGraph
 Vertex o-- BaseGraph
 BaseGraph <|.. CDG
 BaseGraph <|.. SDG
+VertexType <-- Vertex
+EdgeType <-- Edge
+SDG --> CDG
 
 abstract Class BaseGraph
 Class Vertex
 Class Edge
 Class CDG
 Class SDG
+enum VertexType
+enum EdgeType
+
 }
 
 
 package "application" {
 
-ListenerGeneric     <|-- ListenerSpec
-VisitorGeneric      <|-- VisitorSpec
+ParseTreeListener     <|-- ListenerSpec
+ParseTreeVisitor      <|-- VisitorSpec
 BaseListener <|-- ListenerSpec
 BaseVisitor  <|-- VisitorSpec
 
-Interface ListenerGeneric {
+Interface ParseTreeListener {
 }
-Interface VisitorGeneric<T> {
+Interface ParseTreeVisitor<T> {
 }
 
 
@@ -66,8 +72,8 @@ GraphBuilder ..> BaseGraph
 GraphBuilder <|.. CDGBuilder
 GraphBuilder <|.. SDGBuilder
 
-GraphBuilder ..> ListenerGeneric
-GraphBuilder ..> VisitorGeneric
+GraphBuilder ..> ParseTreeListener
+GraphBuilder ..> ParseTreeVisitor
 
 Grader --> SDG
 
