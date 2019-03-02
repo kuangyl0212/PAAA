@@ -1,18 +1,18 @@
 package graph;
 
 public enum VertexType {
-    HEAD,
-    FUNC_DEF,
-    DECLARATION,
-    BLOCK,
-    EXPR_STAT,
-    ITER_STAT,
-    JUMP_STAT,
-    SEL_STAT;
+    HEAD,               /* start rule                   */
+    FUNC_DEF,           /* function definition          */
+    DECLARATION,        /* declaration                  */
+    BLOCK,              /* block statement list         */
+    EXPR_STAT,          /* expression statement         */
+    ITER_STAT,          /* iteration statement          */
+    JUMP_STAT,          /* jump statement               */
+    SEL_STAT,           /* selection statement          */
+    STRUCT_SPEC,        /* struct or union specifier    */
+    STRUCT_DEC_LIST,    /* struct declaration list      */
+    STRUCT_DEC,         /* struct declaration           */
+    ASSIGN_EXPR,        /* assignment expression        */
+    ;
 
-    @Override
-    public String toString() {
-        // maybe some fancy layout style?
-        return super.toString();
-    }
 }

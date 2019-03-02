@@ -20,17 +20,17 @@ public class CListenerEnhancedTest {
     private ParseTreeWalker  walker;
 
     private void resetTest() {
-        String inputString = "";
-        administrator = new ParserAdministrator(inputString);
+        String sourceCode = "";
+        administrator = new ParserAdministrator(sourceCode);
         cdg = new CDG();
         listenerEnhanced = new CListenerEnhanced(cdg);
         walker = new ParseTreeWalker();
         buildBaseCDG();
     }
 
-    private String getDotStringFrom(String inputString) {
+    private String getDotStringFrom(String sourceCode) {
         resetTest();
-        administrator.reset(inputString);
+        administrator.reset(sourceCode);
         ParseTree parseTree = administrator.getParseTree();
         walker.walk(listenerEnhanced, parseTree);
         return Exporter.exportCDGAsDot(cdg);
@@ -56,8 +56,8 @@ public class CListenerEnhancedTest {
 
     @Test
     public void creatHeadTest() {
-        String inputString = "";
-        String actual = getDotStringFrom(inputString);
+        String sourceCode = "";
+        String actual = getDotStringFrom(sourceCode);
         CDG expectedCDG = new CDG();
         expectedCDG.addVertex(VertexType.HEAD);
 
@@ -67,8 +67,8 @@ public class CListenerEnhancedTest {
 
     @Test
     public void creatFunctionDefinitionTest() {
-        String inputString = "void main() {}";
-        String actual = getDotStringFrom(inputString);
+        String sourceCode = "void main() {}";
+        String actual = getDotStringFrom(sourceCode);
         CDG expectedCDG = new CDG();
         Vertex head = new Vertex(VertexType.HEAD);
         Vertex fun = new Vertex(VertexType.FUNC_DEF);
@@ -167,6 +167,31 @@ public class CListenerEnhancedTest {
         Vertex exprStat = new Vertex(VertexType.EXPR_STAT);
         expectedCDG.addVertex(exprStat);
         expectedCDG.addEdge(selBody, exprStat);
+
+        String expected = Exporter.exportCDGAsDot(expectedCDG);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void creatStructTest() {
+        String sourceCode = "struct tree {int a;};";
+        String actual = getDotStringFrom(sourceCode);
+
+        CDG expectedCDG = new CDG();
+        Vertex head = new Vertex(VertexType.HEAD);
+        Vertex declaration = new Vertex(VertexType.DECLARATION);
+        expectedCDG.addVertex(head);
+        expectedCDG.addVertex(declaration);
+        expectedCDG.addEdge(head, declaration);
+        Vertex struct = new Vertex(VertexType.STRUCT_SPEC);
+        expectedCDG.addVertex(struct);
+        expectedCDG.addEdge(declaration, struct);
+        Vertex structDecList = new Vertex(VertexType.STRUCT_DEC_LIST);
+        expectedCDG.addVertex(structDecList);
+        expectedCDG.addEdge(struct, structDecList);
+        Vertex structDec = new Vertex(VertexType.STRUCT_DEC);
+        expectedCDG.addVertex(structDec);
+        expectedCDG.addEdge(structDecList, structDec);
 
         String expected = Exporter.exportCDGAsDot(expectedCDG);
         assertEquals(expected, actual);
