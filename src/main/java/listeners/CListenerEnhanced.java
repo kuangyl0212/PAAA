@@ -4,6 +4,7 @@ import java.util.Stack;
 import graph.Vertex;
 import graph.CDG;
 import graph.VertexType;
+import org.antlr.v4.runtime.ParserRuleContext;
 import parser.c.CBaseListener;
 import parser.c.CParser;
 
@@ -17,9 +18,15 @@ public class CListenerEnhanced extends CBaseListener {
         cdg = emptyCDG;
     }
 
+    private Vertex creatVertexWithCtx(VertexType type, ParserRuleContext ctx) {
+        Vertex vertex = new Vertex(type);
+        vertex.setCtx(ctx);
+        return vertex;
+    }
+
     @Override
     public void enterCompilationUnit(CParser.CompilationUnitContext ctx) {
-        Vertex headVertex = new Vertex(VertexType.HEAD);
+        Vertex headVertex = creatVertexWithCtx(VertexType.HEAD, ctx);
         cdg.addVertex(headVertex);
         vertexStack.push(headVertex);
     }
@@ -31,7 +38,7 @@ public class CListenerEnhanced extends CBaseListener {
 
     @Override
     public void enterFunctionDefinition(CParser.FunctionDefinitionContext ctx) {
-        Vertex vertex = new Vertex(VertexType.FUNC_DEF);
+        Vertex vertex = creatVertexWithCtx(VertexType.FUNC_DEF, ctx);
         cdg.addVertex(vertex);
         cdg.addEdge(vertexStack.peek(), vertex);
         vertexStack.push(vertex);
@@ -44,14 +51,14 @@ public class CListenerEnhanced extends CBaseListener {
 
     @Override
     public void enterDeclaration(CParser.DeclarationContext ctx) {
-        Vertex vertex = new Vertex(VertexType.DECLARATION);
+        Vertex vertex = creatVertexWithCtx(VertexType.DECLARATION, ctx);
         cdg.addVertex(vertex);
         cdg.addEdge(vertexStack.peek(), vertex);
     }
 
     @Override
     public void enterBlockItemList(CParser.BlockItemListContext ctx) {
-        Vertex vertex = new Vertex(VertexType.BLOCK);
+        Vertex vertex = creatVertexWithCtx(VertexType.BLOCK, ctx);
         cdg.addVertex(vertex);
         cdg.addEdge(vertexStack.peek(), vertex);
         vertexStack.push(vertex);
@@ -63,13 +70,13 @@ public class CListenerEnhanced extends CBaseListener {
     }
 
     @Override public void enterExpressionStatement(CParser.ExpressionStatementContext ctx) {
-        Vertex vertex = new Vertex(VertexType.EXPR_STAT);
+        Vertex vertex = creatVertexWithCtx(VertexType.EXPR_STAT, ctx);
         cdg.addVertex(vertex);
         cdg.addEdge(vertexStack.peek(), vertex);
     }
 
     @Override public void enterIterationStatement(CParser.IterationStatementContext ctx) {
-        Vertex vertex = new Vertex(VertexType.ITER_STAT);
+        Vertex vertex = creatVertexWithCtx(VertexType.ITER_STAT, ctx);
         cdg.addVertex(vertex);
         cdg.addEdge(vertexStack.peek(), vertex);
         vertexStack.push(vertex);
@@ -80,13 +87,13 @@ public class CListenerEnhanced extends CBaseListener {
     }
 
     @Override public void enterJumpStatement(CParser.JumpStatementContext ctx) {
-        Vertex vertex = new Vertex(VertexType.JUMP_STAT);
+        Vertex vertex = creatVertexWithCtx(VertexType.JUMP_STAT, ctx);
         cdg.addVertex(vertex);
         cdg.addEdge(vertexStack.peek(), vertex);
     }
 
     @Override public void enterSelectionStatement(CParser.SelectionStatementContext ctx) {
-        Vertex vertex = new Vertex(VertexType.SEL_STAT);
+        Vertex vertex = creatVertexWithCtx(VertexType.SEL_STAT, ctx);
         cdg.addVertex(vertex);
         cdg.addEdge(vertexStack.peek(), vertex);
         vertexStack.push(vertex);

@@ -143,7 +143,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatSelectionStatement() {
+    public void creatSelectionStatementTest() {
         String actual = getDotStringFrom("void main() {if (a > 0) {}}");
         CDG expectedCDG = baseCdg;
         Vertex selStat = new Vertex(VertexType.SEL_STAT);
