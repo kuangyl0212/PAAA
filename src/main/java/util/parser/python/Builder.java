@@ -21,21 +21,21 @@ public final class Builder {
     private Builder() {
     }
 
-    public static final class Lexer {
+    public static final class PyLexer {
 
         private Python3Lexer lexer;
 
-        public Lexer(String input) {
+        public PyLexer(String input) {
             this(CharStreams.fromString(input));
         }
 
-        public Lexer(CharStream input) {
+        public PyLexer(CharStream input) {
             this.lexer = new Python3Lexer(input);
             this.lexer.removeErrorListeners();
             this.lexer.addErrorListener(ERROR_LISTENER);
         }
 
-        public Lexer withErrorListener(ANTLRErrorListener listener) {
+        public PyLexer withErrorListener(ANTLRErrorListener listener) {
             this.lexer.removeErrorListeners();
             this.lexer.addErrorListener(listener);
             return this;
@@ -46,15 +46,15 @@ public final class Builder {
         }
     }
 
-    public static final class Parser {
+    public static final class PyParser {
 
         private Python3Parser parser;
 
-        public Parser(String input) {
+        public PyParser(String input) {
             this(CharStreams.fromString(input));
         }
 
-        public Parser(CharStream input) {
+        public PyParser(CharStream input) {
             Python3Lexer lexer = new Python3Lexer(input);
             lexer.removeErrorListeners();
             lexer.addErrorListener(ERROR_LISTENER);
@@ -63,13 +63,13 @@ public final class Builder {
             this.parser.addErrorListener(ERROR_LISTENER);
         }
 
-        public Parser(Python3Lexer lexer) {
+        public PyParser(Python3Lexer lexer) {
             this.parser = new Python3Parser(new CommonTokenStream(lexer));
             this.parser.removeErrorListeners();
             this.parser.addErrorListener(ERROR_LISTENER);
         }
 
-        public Parser withErrorListener(ANTLRErrorListener listener) {
+        public PyParser withErrorListener(ANTLRErrorListener listener) {
             this.parser.removeErrorListeners();
             this.parser.addErrorListener(listener);
             return this;
@@ -90,7 +90,7 @@ public final class Builder {
 
         public String toStringASCII() {
 
-            Python3Parser parser = new Builder.Parser(input).build();
+            Python3Parser parser = new PyParser(input).build();
             ParseTree tree = parser.file_input();
 
             StringBuilder builder = new StringBuilder();

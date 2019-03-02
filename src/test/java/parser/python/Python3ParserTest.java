@@ -56,7 +56,7 @@ public class Python3ParserTest {
             System.out.printf("parsing %s/%s: '%s' ... ", counter, total, test.getName());
 
             try {
-                Python3Parser parser = new Builder.Parser(new ANTLRInputStream(new FileInputStream(test))).build();
+                Python3Parser parser = new Builder.PyParser(new ANTLRInputStream(new FileInputStream(test))).build();
                 parser.file_input();
                 System.out.println("OK");
             }
@@ -69,7 +69,7 @@ public class Python3ParserTest {
 
     @Test(expected=RuntimeException.class)
     public void leadingIndentationShouldFail() {
-        new Builder.Parser("  def func():\n" +
+        new Builder.PyParser("  def func():\n" +
                            "  return 42")
             .build()
             .file_input();
@@ -77,7 +77,7 @@ public class Python3ParserTest {
 
     @Test
     public void trailingCommentShouldPass() {
-        new Builder.Parser("def func():\n" +
+        new Builder.PyParser("def func():\n" +
                            "  return 42\n" +
                            "  # comment")
             .build()
@@ -86,7 +86,7 @@ public class Python3ParserTest {
 
     @Test
     public void leadingCommentShouldPass() {
-        new Builder.Parser("# comment\n" +
+        new Builder.PyParser("# comment\n" +
                            "def func():\n" +
                            "  return 42")
             .build()
@@ -95,7 +95,7 @@ public class Python3ParserTest {
 
     @Test
     public void leadingAndTrailingCommentShouldPass() {
-        new Builder.Parser("# line break\n" +
+        new Builder.PyParser("# line break\n" +
                            "def func():\n" +
                            "  return 42\n" +
                            "  # comment")

@@ -1,4 +1,4 @@
 package application;
 
-public class SDGBuilder extends GraphBuilder {
+public class SDGBuilder {
 }

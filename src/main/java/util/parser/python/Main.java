@@ -21,7 +21,7 @@ public class Main {
      */
     public static void listMethodNames(String source) {
 
-        Python3Parser parser = new Builder.Parser(source).build();
+        Python3Parser parser = new Builder.PyParser(source).build();
 
         ParseTreeWalker.DEFAULT.walk(new Python3BaseListener() {
 
