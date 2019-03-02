@@ -21,14 +21,19 @@ public class ParserAdministrator {
     private Lexer lexer;
     private Parser parser;
 
-    public ParserAdministrator(String inputString) throws Throwable {
+    public ParserAdministrator(String inputString) {
+        this.inputString = inputString;
+        setAll();
+    }
+
+    public void reset(String inputString) {
         this.inputString = inputString;
         setAll();
     }
 
 
 
-    private void setAll() throws Throwable {
+    private void setAll()  {
         setCharStream();
         setLexerAndParser();
         setParseTree();
@@ -38,7 +43,7 @@ public class ParserAdministrator {
         charStream = CharStreams.fromString(inputString);
     }
 
-    private void setLexerAndParser() throws Throwable {
+    private void setLexerAndParser() {
         switch (Global.LAN) {
             case C:
                 setLexer(new CLexer(charStream));
@@ -56,7 +61,7 @@ public class ParserAdministrator {
                 setParser(new Python3Parser(tokenStream));
                 break;
             default:
-                throw new Throwable("No such language");
+//                throw new Throwable("No such language");
         }
     }
 
@@ -72,7 +77,7 @@ public class ParserAdministrator {
         this.parser = parser;
     }
 
-    private void setParseTree() throws Throwable {
+    private void setParseTree() {
         switch (Global.LAN) {
             case C:
                 parseTree = ((CParser)parser).compilationUnit();
@@ -84,7 +89,7 @@ public class ParserAdministrator {
                 parseTree = ((Python3Parser)parser).file_input();
                 break;
             default:
-                throw new Throwable();
+//                throw new Throwable();
         }
     }
 

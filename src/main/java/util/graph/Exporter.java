@@ -9,7 +9,7 @@ import graph.Vertex;
 
 public class Exporter {
 
-    public static String exportAsDot(CDG graph) {
+    public static String exportCDGAsDot(CDG graph) {
         ComponentNameProvider<Vertex> vertexIdProvider = new ComponentNameProvider<Vertex>() {
             public String getName(Vertex vertex) {
                 return vertex.getType().toString();

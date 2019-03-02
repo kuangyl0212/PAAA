@@ -3,9 +3,7 @@
 package "<LANG>parser" {
 Lexer    <..  Parser
 Parser   <..  Listener
-Parser   <..  Visitor
 Listener <|.. BaseListener
-Visitor  <|.. BaseVisitor
 
 Class Parser {
 
@@ -14,16 +12,12 @@ Class Lexer {
 
 }
 
-Interface Visitor<T> {
-    visit<rule>()
-}
+
 Interface Listener {
     enter<rule>()
     exit<rule>()
 }
 
-Class BaseVisitor<T> {
-}
 Class BaseListener {
 }
 
@@ -50,44 +44,27 @@ enum EdgeType
 
 
 package "application" {
-
-ParseTreeListener     <|-- ListenerSpec
-ParseTreeVisitor      <|-- VisitorSpec
+ParserAdministrator --> Lexer
+ParserAdministrator --> Parser
+ParserAdministrator --> Listener
+ParserAdministrator --> ListenerSpec
+CDGBuilder --> ParserAdministrator
+CDGBuilder --> CDG
+SDGBuilder --> SDG
 BaseListener <|-- ListenerSpec
-BaseVisitor  <|-- VisitorSpec
-
-Interface ParseTreeListener {
-}
-Interface ParseTreeVisitor<T> {
-}
-
-
-Class ListenerSpec {
-}
-Class VisitorSpec<T> {
-}
-
-GraphBuilder ..> BaseGraph
-
-GraphBuilder <|.. CDGBuilder
-GraphBuilder <|.. SDGBuilder
-
-GraphBuilder ..> ParseTreeListener
-GraphBuilder ..> ParseTreeVisitor
-
 Grader --> SDG
-
-abstract GraphBuilder
+Grader --> CDG
 
 Class CDGBuilder
 Class SDGBuilder
 Class Grader
 
-Class ParserProvider {
+Class ParserAdministrator {
     getLexer()
     getParser()
 }
-
+Class ListenerSpec {
+}
 
 }
 
