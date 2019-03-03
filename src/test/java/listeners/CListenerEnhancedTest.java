@@ -274,6 +274,5 @@ public class CListenerEnhancedTest {
         String expected = getDotStringFrom(expectedCDG);
 
         assertEquals(expected, actual);
-
     }
 }
