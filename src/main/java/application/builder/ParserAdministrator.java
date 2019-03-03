@@ -1,13 +1,14 @@
-package application;
+package application.builder;
 
-import config.Global;
-import listeners.CListenerEnhanced;
+import application.config.Global;
+import application.listeners.CListenerEnhanced;
+import graph.CDG;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.jgrapht.graph.DefaultDirectedGraph;
 import parser.c.CLexer;
-import parser.c.CListener;
 import parser.c.CParser;
-import parser.c.CBaseListener;
 import parser.java.JavaLexer;
 import parser.java.JavaParser;
 import parser.python.Python3Lexer;
@@ -95,5 +96,16 @@ public class ParserAdministrator {
 
     public ParseTree getParseTree() {
         return parseTree;
+    }
+
+    public ParseTreeListener getListener(CDG emptyCDG) {
+        switch (Global.LAN) {
+            case C:
+                return new CListenerEnhanced(emptyCDG);
+            case JAVA:
+            case PYTHON:
+        }
+        // TODO throw some expectation here
+        return null;
     }
 }

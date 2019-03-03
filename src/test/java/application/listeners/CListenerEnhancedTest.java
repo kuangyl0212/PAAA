@@ -1,6 +1,6 @@
-package listeners;
+package application.listeners;
 
-import application.ParserAdministrator;
+import application.builder.ParserAdministrator;
 import graph.CDG;
 import graph.Vertex;
 import graph.VertexType;
