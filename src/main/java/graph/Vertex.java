@@ -18,5 +18,6 @@ public class Vertex implements Serializable {
     public void setCtx(ParserRuleContext ctx) {
         this.ctx = ctx;
     }
+    public ParserRuleContext getCtx() {return ctx;}
 
 }

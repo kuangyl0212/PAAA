@@ -6,6 +6,7 @@ import graph.CDG;
 import graph.VertexType;
 import org.antlr.v4.runtime.ParserRuleContext;
 import parser.c.CBaseListener;
+import parser.c.CLexer;
 import parser.c.CParser;
 
 public class CListenerEnhanced extends CBaseListener {
@@ -37,6 +38,20 @@ public class CListenerEnhanced extends CBaseListener {
 
     private void pushToStack(Vertex vertex) {
         vertexStack.push(vertex);
+    }
+
+    private boolean isCaseClause(CParser.LabeledStatementContext ctx) {
+        return ctx.Case() != null;
+    }
+
+    private boolean isWithinIfSelCtx() {
+        ParserRuleContext ctx = vertexStack.peek().getCtx();
+        return ctx.getStart().getType() == CLexer.If;
+    }
+
+    private boolean isWithinSwitchCtx() {
+        ParserRuleContext ctx = vertexStack.peek().getCtx();
+        return ctx.getStart().getType() == CLexer.Switch;
     }
 
     /* */
@@ -74,12 +89,19 @@ public class CListenerEnhanced extends CBaseListener {
 
     @Override
     public void enterBlockItemList(CParser.BlockItemListContext ctx) {
+        if (isWithinIfSelCtx()) {
+            addVertexWithCtxAndEdgeThenPushToStack(VertexType.SEL_CLAUSE, ctx);
+            return;
+        }
+        if (isWithinSwitchCtx()) {
+            return;
+        }
         addVertexWithCtxAndEdgeThenPushToStack(VertexType.BLOCK, ctx);
     }
 
     @Override
     public void exitBlockItemList(CParser.BlockItemListContext ctx) {
-        vertexStack.pop();
+        if (!isWithinSwitchCtx()) vertexStack.pop();
     }
 
     @Override public void enterExpressionStatement(CParser.ExpressionStatementContext ctx) {
@@ -141,4 +163,19 @@ public class CListenerEnhanced extends CBaseListener {
     public void exitStructDeclaration(CParser.StructDeclarationContext ctx) {
         vertexStack.pop();
     }
+
+    @Override
+    public void enterLabeledStatement(CParser.LabeledStatementContext ctx) {
+        if (isCaseClause(ctx)) {
+            addVertexWithCtxAndEdgeThenPushToStack(VertexType.SEL_CLAUSE, ctx);
+        }
+    }
+
+    @Override
+    public void exitLabeledStatement(CParser.LabeledStatementContext ctx) {
+        if (isCaseClause(ctx)) {
+            vertexStack.pop();
+        }
+    }
+
 }
