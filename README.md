@@ -14,7 +14,7 @@ We use IntelliJ IDEA, and here are some plugins need to be installed:
 
 ### Work Flow
 We use **git** for version control && follow the work flow of **git flow**(refer to [git-flow-cheatsheet](https://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html))
-* Please do not commit uncompilable code
+* Please do not commit any uncompilable code
 * Don't commit untested code too
 * Keep clean
 
