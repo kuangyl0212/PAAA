@@ -11,6 +11,7 @@ public class Vertex implements Serializable {
     public Vertex(VertexType type) {
         this.type = type;
     }
+    public Vertex(String type) throws Throwable {this.type = VertexType.getTypeFrom(type);}
     public VertexType getType() {
         return type;
     }

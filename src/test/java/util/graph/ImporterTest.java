@@ -1,8 +1,10 @@
 package util.graph;
 
+import graph.CDG;
+import graph.Vertex;
+import graph.VertexType;
 import org.junit.jupiter.api.Test;
 
-import static util.graph.Exporter.exportAsDot;
 import static util.graph.Exporter.exportCDGAsDot;
 import static org.junit.jupiter.api.Assertions.*;
 import static util.graph.Importer.importFrom;
@@ -11,54 +13,60 @@ class ImporterTest {
 
     @Test
     void importEmptyTest() {
-        SimpleGraph actualGraph = importFrom("()");
-        SimpleGraph expectedGraph = new SimpleGraph();
+        CDG actualGraph = importFrom("()");
+        CDG expectedGraph = new CDG();
 
-        String expected = exportAsDot(expectedGraph);
-        String actual = exportAsDot(actualGraph);
+        String expected = exportCDGAsDot(expectedGraph);
+        String actual = exportCDGAsDot(actualGraph);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void importOneNodeTest() {
-        SimpleGraph actualGraph = importFrom("(HEAD)");
-        SimpleGraph expectedGraph = new SimpleGraph();
-        expectedGraph.addVertex("HEAD");
+        CDG actualGraph = importFrom("(HEAD)");
+        CDG expectedGraph = new CDG();
+        expectedGraph.addVertex(new Vertex(VertexType.HEAD));
 
-        String expected = exportAsDot(expectedGraph);
-        String actual = exportAsDot(actualGraph);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void importOneMoreNodeTest() {
-        SimpleGraph actualGraph = importFrom("(HEAD EXPR_STAT)");
-        SimpleGraph expectedGraph = new SimpleGraph();
-        expectedGraph.addVertex("HEAD");
-        expectedGraph.addVertex("EXPR_STAT");
-        expectedGraph.addEdge("HEAD", "EXPR_STAT");
-
-        String expected = exportAsDot(expectedGraph);
-        String actual = exportAsDot(actualGraph);
+        String expected = exportCDGAsDot(expectedGraph);
+        String actual = exportCDGAsDot(actualGraph);
 
         assertEquals(expected, actual);
     }
 
     @Test
-    void importFromTest() {
+    void importOneMoreNodeTest() throws Throwable {
+        CDG actualGraph = importFrom("(HEAD EXPR_STAT)");
+        CDG expectedGraph = new CDG();
+        Vertex head = new Vertex("HEAD");
+        expectedGraph.addVertex(head);
+        Vertex exprStat = new Vertex("EXPR_STAT");
+        expectedGraph.addVertex(exprStat);
+        expectedGraph.addEdge(head, exprStat);
+
+        String expected = exportCDGAsDot(expectedGraph);
+        String actual = exportCDGAsDot(actualGraph);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void importFromTest() throws Throwable {
         String formalString = "(HEAD (FUNC_DEF BLOCK))";
-        SimpleGraph actualGraph = importFrom(formalString);
-        SimpleGraph expectedGraph = new SimpleGraph();
-        expectedGraph.addVertex("HEAD");
-        expectedGraph.addVertex("FUNC_DEF");
-        expectedGraph.addEdge("HEAD", "FUNC_DEF");
-        expectedGraph.addVertex("BLOCK");
-        expectedGraph.addEdge("FUNC_DEF", "BLOCK");
+        CDG actualGraph = importFrom(formalString);
+        CDG expectedGraph = new CDG();
 
-        String expected = exportAsDot(expectedGraph);
-        String actual = exportAsDot(actualGraph);
+        Vertex head = new Vertex("HEAD");
+        expectedGraph.addVertex(head);
+        Vertex funcDef = new Vertex("FUNC_DEF");
+        expectedGraph.addVertex(funcDef);
+        expectedGraph.addEdge(head, funcDef);
+        Vertex block = new Vertex("BLOCK");
+        expectedGraph.addVertex(block);
+        expectedGraph.addEdge(funcDef, block);
+
+        String expected = exportCDGAsDot(expectedGraph);
+        String actual = exportCDGAsDot(actualGraph);
 
         assertEquals(expected, actual);
     }

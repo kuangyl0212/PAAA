@@ -11,6 +11,9 @@ import static org.junit.Assert.assertEquals;
 
 import util.graph.Exporter;
 
+import static util.graph.Importer.importFrom;
+import static util.graph.Exporter.exportCDGAsDot;
+
 public class CListenerEnhancedTest {
     private ParserAdministrator administrator;
     private CDG cdg;
@@ -39,6 +42,10 @@ public class CListenerEnhancedTest {
     private String getDotStringFrom(CDG cdg) {
         return Exporter.exportCDGAsDot(cdg);
     }
+
+    private String getDotFrom(String formalString) {
+        return exportCDGAsDot(importFrom(formalString));
+    };
 
     /**
      *
@@ -72,16 +79,8 @@ public class CListenerEnhancedTest {
 
     @Test
     public void creatFunctionDefinitionTest() {
-        String sourceCode = "void main() {}";
-        String actual = getDotStringFrom(sourceCode);
-
-        CDG expectedCDG = new CDG();
-        Vertex head = new Vertex(VertexType.HEAD);
-        Vertex fun = new Vertex(VertexType.FUNC_DEF);
-        expectedCDG.addVertex(head);
-        expectedCDG.addVertex(fun);
-        expectedCDG.addEdge(head, fun);
-        String expected = getDotStringFrom(expectedCDG);
+        String actual = getDotStringFrom("void main() {}");
+        String expected = getDotFrom("(HEAD FUNC_DEF)");;
 
         assertEquals(expected, actual);
     }
@@ -89,14 +88,7 @@ public class CListenerEnhancedTest {
     @Test
     public void creatDeclarationTest() {
         String actual = getDotStringFrom("int a;");
-
-        CDG expectedCDG = new CDG();
-        Vertex head = new Vertex(VertexType.HEAD);
-        Vertex declaration = new Vertex(VertexType.DECLARATION);
-        expectedCDG.addVertex(head);
-        expectedCDG.addVertex(declaration);
-        expectedCDG.addEdge(head, declaration);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD DECLARATION)");
 
         assertEquals(expected, actual);
     }
@@ -104,12 +96,10 @@ public class CListenerEnhancedTest {
     @Test
     public void creatBlockItemListTest() {
         String actual = getDotStringFrom("void main() {int a;}");
-
-        CDG expectedCDG = baseCdg;
-        Vertex declaration = new Vertex(VertexType.DECLARATION);
-        expectedCDG.addVertex(declaration);
-        expectedCDG.addEdge(baseBlock, declaration);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected =
+                getDotFrom("(HEAD " +
+                "(FUNC_DEF " +
+                        "(BLOCK DECLARATION)))");
 
         assertEquals(expected, actual);
     }
@@ -118,11 +108,9 @@ public class CListenerEnhancedTest {
     public void creatExpressionStatementTest() {
         String actual = getDotStringFrom("void main() {printf(\"Hello World\");}");
 
-        CDG expectedCDG = baseCdg;
-        Vertex exprStat = new Vertex(VertexType.EXPR_STAT);
-        expectedCDG.addVertex(exprStat);
-        expectedCDG.addEdge(baseBlock, exprStat);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD" +
+                "(FUNC_DEF " +
+                    "(BLOCK EXPR_STAT)))");
 
         assertEquals(expected, actual);
     }
@@ -131,11 +119,9 @@ public class CListenerEnhancedTest {
     public void createIterationStatementTest() {
         String actual = getDotStringFrom("void main() {for(;;){}}");
 
-        CDG expectedCDG = baseCdg;
-        Vertex itrStat = new Vertex(VertexType.ITER_STAT);
-        expectedCDG.addVertex(itrStat);
-        expectedCDG.addEdge(baseBlock, itrStat);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD " +
+                "(FUNC_DEF " +
+                "(BLOCK ITER_STAT)))");
 
         assertEquals(expected, actual);
     }
@@ -144,11 +130,9 @@ public class CListenerEnhancedTest {
     public void creatJumpStatementTest() {
         String actual = getDotStringFrom("void main() {return;}");
 
-        CDG expectedCDG = baseCdg;
-        Vertex jumpStat = new Vertex(VertexType.JUMP_STAT);
-        expectedCDG.addVertex(jumpStat);
-        expectedCDG.addEdge(baseBlock, jumpStat);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD " +
+                "(FUNC_DEF " +
+                "(BLOCK JUMP_STAT)))");
 
         assertEquals(expected, actual);
     }
@@ -157,11 +141,9 @@ public class CListenerEnhancedTest {
     public void creatSelectionStatementTest() {
         String actual = getDotStringFrom("void main() {if (a > 0) {}}");
 
-        CDG expectedCDG = baseCdg;
-        Vertex selStat = new Vertex(VertexType.SEL_STAT);
-        expectedCDG.addVertex(selStat);
-        expectedCDG.addEdge(baseBlock, selStat);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD " +
+                "(FUNC_DEF" +
+                    "(BLOCK SEL_STAT)))");
 
         assertEquals(expected, actual);
     }
@@ -170,17 +152,13 @@ public class CListenerEnhancedTest {
     public void creatIfSelectionClauseTest() {
         String actual = getDotStringFrom("void main() {if (a > 0) {a = 0;}}");
 
-        CDG expectedCDG = baseCdg;
-        Vertex selStat = new Vertex(VertexType.SEL_STAT);
-        expectedCDG.addVertex(selStat);
-        expectedCDG.addEdge(baseBlock, selStat);
-        Vertex selClause = new Vertex(VertexType.SEL_CLAUSE);
-        expectedCDG.addVertex(selClause);
-        expectedCDG.addEdge(selStat, selClause);
-        Vertex exprStat = new Vertex(VertexType.EXPR_STAT);
-        expectedCDG.addVertex(exprStat);
-        expectedCDG.addEdge(selClause, exprStat);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD" +
+                "(FUNC_DEF" +
+                "(BLOCK " +
+                "   (SEL_STAT" +
+                "       (SEL_CLAUSE EXPR_STAT)))))");
+
+
 
         assertEquals(expected, actual);
     }
@@ -190,22 +168,10 @@ public class CListenerEnhancedTest {
         String sourceCode = "struct tree {int a;};";
         String actual = getDotStringFrom(sourceCode);
 
-        CDG expectedCDG = new CDG();
-        Vertex head = new Vertex(VertexType.HEAD);
-        Vertex declaration = new Vertex(VertexType.DECLARATION);
-        expectedCDG.addVertex(head);
-        expectedCDG.addVertex(declaration);
-        expectedCDG.addEdge(head, declaration);
-        Vertex struct = new Vertex(VertexType.STRUCT_SPEC);
-        expectedCDG.addVertex(struct);
-        expectedCDG.addEdge(declaration, struct);
-        Vertex structDecList = new Vertex(VertexType.STRUCT_DEC_LIST);
-        expectedCDG.addVertex(structDecList);
-        expectedCDG.addEdge(struct, structDecList);
-        Vertex structDec = new Vertex(VertexType.STRUCT_DEC);
-        expectedCDG.addVertex(structDec);
-        expectedCDG.addEdge(structDecList, structDec);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD" +
+                "(DECLARATION " +
+                "   (STRUCT_SPEC" +
+                "       (STRUCT_DEC_LIST STRUCT_DEC))))");
 
         assertEquals(expected, actual);
     }
@@ -215,17 +181,11 @@ public class CListenerEnhancedTest {
         String sourceCode = "void main() {switch (a) {case 1: a=0;}}";
         String actual = getDotStringFrom(sourceCode);
 
-        CDG expectedCDG = baseCdg;
-        Vertex selStat = new Vertex(VertexType.SEL_STAT);
-        expectedCDG.addVertex(selStat);
-        expectedCDG.addEdge(baseBlock, selStat);
-        Vertex selClause = new Vertex(VertexType.SEL_CLAUSE);
-        expectedCDG.addVertex(selClause);
-        expectedCDG.addEdge(selStat, selClause);
-        Vertex exprStat = new Vertex(VertexType.EXPR_STAT);
-        expectedCDG.addVertex(exprStat);
-        expectedCDG.addEdge(selClause, exprStat);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD" +
+                "(FUNC_DEF " +
+                "   (BLOCK " +
+                "       (SEL_STAT " +
+                "           (SEL_CLAUSE EXPR_STAT)))))");
 
         assertEquals(expected, actual);
     }
@@ -271,7 +231,14 @@ public class CListenerEnhancedTest {
         Vertex elseExpr = new Vertex(VertexType.EXPR_STAT);
         expectedCDG.addVertex(elseExpr);
         expectedCDG.addEdge(elseClause, elseExpr);
-        String expected = getDotStringFrom(expectedCDG);
+        String expected = getDotFrom("(HEAD" +
+                "(FUNC_DEF" +
+                "   (BLOCK" +
+                "       (SEL_STAT" +
+                "           (SEL_CLAUSE EXPR_STAT)" +
+                "           (SEL_STAT" +
+                "               (SEL_CLAUSE EXPR_STAT)" +
+                "               (SEL_CLAUSE EXPR_STAT))))))");
 
         assertEquals(expected, actual);
     }
