@@ -33,7 +33,7 @@ public class Scale {
     private void putType(Vertex vertex) {
         vertexTypeCount.put(vertex.getType(), 1);
     }
-    
+
     public int get(VertexType type) {
         if (vertexTypeCount.containsKey(type))
             return vertexTypeCount.get(type);
