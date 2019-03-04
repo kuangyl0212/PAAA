@@ -33,13 +33,11 @@ public class Scale {
     private void putType(Vertex vertex) {
         vertexTypeCount.put(vertex.getType(), 1);
     }
-
-    /**
-     * @Warning!!! Scale know nothing about vertex type
-     * Please do not get non-exist type!!!
-     * */
+    
     public int get(VertexType type) {
-        return vertexTypeCount.get(type);
+        if (vertexTypeCount.containsKey(type))
+            return vertexTypeCount.get(type);
+        return 0;
     }
     public int get(String type) throws Throwable {
         return vertexTypeCount.get(VertexType.getTypeFrom(type));

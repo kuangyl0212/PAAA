@@ -164,19 +164,6 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatStructTest() {
-        String sourceCode = "struct tree {int a;};";
-        String actual = getDotStringFrom(sourceCode);
-
-        String expected = getDotFrom("(HEAD" +
-                "(DECLARATION " +
-                "   (STRUCT_SPEC" +
-                "       (STRUCT_DEC_LIST STRUCT_DEC))))");
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     public void createSwitchCaseTest() {
         String sourceCode = "void main() {switch (a) {case 1: a=0;}}";
         String actual = getDotStringFrom(sourceCode);
@@ -186,6 +173,59 @@ public class CListenerEnhancedTest {
                 "   (BLOCK " +
                 "       (SEL_STAT " +
                 "           (SEL_CLAUSE EXPR_STAT)))))");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void createMoreCaseTest() {
+        String sourceCode = "void main() {switch (a) {case 1: a=0; case 2: a = 1;}}";
+        String actual = getDotStringFrom(sourceCode);
+
+        String expected = getDotFrom("(HEAD" +
+                "(FUNC_DEF " +
+                "   (BLOCK " +
+                "       (SEL_STAT " +
+                "           (SEL_CLAUSE EXPR_STAT)" +
+                "           (SEL_CLAUSE EXPR_STAT)))))");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void createDefaultCaseTest() {
+        String sourceCode = "void main() {switch (a) {case 1: a=0; default: a = 1;}}";
+        String actual = getDotStringFrom(sourceCode);
+
+        String expected = getDotFrom("(HEAD" +
+                "(FUNC_DEF " +
+                "   (BLOCK " +
+                "       (SEL_STAT " +
+                "           (SEL_CLAUSE EXPR_STAT)" +
+                "           (SEL_CLAUSE EXPR_STAT)))))");
+
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * TODO This weird!
+     * */
+    @Test
+    public void createBlockClauseTest() {
+        String sourceCode = "void main() {" +
+                "switch (a) {" +
+                "   case 1: " +
+                "       a=0;" +
+                "       b=2;" +
+                "}}";
+        String actual = getDotStringFrom(sourceCode);
+
+        String expected = getDotFrom("(HEAD" +
+                "(FUNC_DEF " +
+                "   (BLOCK " +
+                "       (SEL_STAT " +
+                "           (SEL_CLAUSE EXPR_STAT)" +
+                "           EXPR_STAT))))");
 
         assertEquals(expected, actual);
     }
@@ -205,32 +245,6 @@ public class CListenerEnhancedTest {
                     "}" +
                 "}";
         String actual = getDotStringFrom(sourceCode);
-
-        CDG expectedCDG = baseCdg;
-        Vertex selStat = new Vertex(VertexType.SEL_STAT);
-        expectedCDG.addVertex(selStat);
-        expectedCDG.addEdge(baseBlock, selStat);
-        Vertex ifClause = new Vertex(VertexType.SEL_CLAUSE);
-        expectedCDG.addVertex(ifClause);
-        expectedCDG.addEdge(selStat, ifClause);
-        Vertex exprStat = new Vertex(VertexType.EXPR_STAT);
-        expectedCDG.addVertex(exprStat);
-        expectedCDG.addEdge(ifClause, exprStat);
-        Vertex elseIfSel = new Vertex(VertexType.SEL_STAT);
-        expectedCDG.addVertex(elseIfSel);
-        expectedCDG.addEdge(selStat, elseIfSel);
-        Vertex elseIfClause = new Vertex(VertexType.SEL_CLAUSE);
-        expectedCDG.addVertex(elseIfClause);
-        expectedCDG.addEdge(elseIfSel, elseIfClause);
-        Vertex elseIfExpr = new Vertex(VertexType.EXPR_STAT);
-        expectedCDG.addVertex(elseIfExpr);
-        expectedCDG.addEdge(elseIfClause, elseIfExpr);
-        Vertex elseClause = new Vertex(VertexType.SEL_CLAUSE);
-        expectedCDG.addVertex(elseClause);
-        expectedCDG.addEdge(elseIfSel, elseClause);
-        Vertex elseExpr = new Vertex(VertexType.EXPR_STAT);
-        expectedCDG.addVertex(elseExpr);
-        expectedCDG.addEdge(elseClause, elseExpr);
         String expected = getDotFrom("(HEAD" +
                 "(FUNC_DEF" +
                 "   (BLOCK" +
@@ -239,6 +253,19 @@ public class CListenerEnhancedTest {
                 "           (SEL_STAT" +
                 "               (SEL_CLAUSE EXPR_STAT)" +
                 "               (SEL_CLAUSE EXPR_STAT))))))");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void creatStructTest() {
+        String sourceCode = "struct tree {int a;};";
+        String actual = getDotStringFrom(sourceCode);
+
+        String expected = getDotFrom("(HEAD" +
+                "(DECLARATION " +
+                "   (STRUCT_SPEC" +
+                "       (STRUCT_DEC_LIST STRUCT_DEC))))");
 
         assertEquals(expected, actual);
     }

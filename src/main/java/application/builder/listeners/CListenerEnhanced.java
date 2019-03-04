@@ -41,7 +41,7 @@ public class CListenerEnhanced extends CBaseListener {
     }
 
     private boolean isCaseClause(CParser.LabeledStatementContext ctx) {
-        return ctx.Case() != null;
+        return ctx.Case() != null || ctx.Default() != null;
     }
 
     private boolean isWithinIfSelCtx() {

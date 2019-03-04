@@ -85,14 +85,17 @@ class TreeVisitor extends TreeBaseVisitor<Integer> {
 }
 
 public class Importer {
+
     public static CDG importFrom(String formalString) {
-        CharStream charStream = CharStreams.fromString(formalString);
+        TreeVisitor visitor = new TreeVisitor();
+        visitor.visit(fromStringToParseTree(formalString));
+        return visitor.getGraph();
+    }
+    private static ParseTree fromStringToParseTree(String string) {
+        CharStream charStream = CharStreams.fromString(string);
         TreeLexer lexer = new TreeLexer(charStream);
         TokenStream tokenStream = new CommonTokenStream(lexer);
         TreeParser parser = new TreeParser(tokenStream);
-        ParseTree parseTree = parser.tree();
-        TreeVisitor visitor = new TreeVisitor();
-        visitor.visit(parseTree);
-        return visitor.getGraph();
+        return parser.tree();
     }
 }
