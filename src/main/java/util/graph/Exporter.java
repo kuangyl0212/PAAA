@@ -35,4 +35,31 @@ public class Exporter {
         }
         return dotString;
     }
+
+    public static String exportAsDot(SimpleGraph graph) {
+        ComponentNameProvider<String> vertexIdProvider = new ComponentNameProvider<String>() {
+            public String getName(String vertex) {
+                return vertex;
+            }
+        };
+        ComponentNameProvider<String> vertexLabelProvider = new ComponentNameProvider<String>() {
+            public String getName(String vertex) {
+                return vertex;
+            }
+        };
+        GraphExporter<String, DefaultEdge> exporter =
+                new DOTExporter<>(vertexIdProvider, vertexLabelProvider, null);
+
+        String dotString = "invalid graph";
+
+        Writer writer = new StringWriter();
+        try {
+            exporter.exportGraph(graph, writer);
+            dotString = writer.toString();
+        }
+        catch (ExportException e) {
+
+        }
+        return dotString;
+    }
 }
