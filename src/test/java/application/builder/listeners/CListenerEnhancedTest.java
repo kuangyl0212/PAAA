@@ -1,4 +1,4 @@
-package application.listeners;
+package application.builder.listeners;
 
 import application.builder.ParserAdministrator;
 import graph.CDG;
@@ -9,10 +9,10 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import util.graph.Exporter;
+import application.util.graph.Exporter;
 
-import static util.graph.Importer.importFrom;
-import static util.graph.Exporter.exportCDGAsDot;
+import static application.util.graph.Importer.importFrom;
+import static application.util.graph.Exporter.exportCDGAsDot;
 
 public class CListenerEnhancedTest {
     private ParserAdministrator administrator;

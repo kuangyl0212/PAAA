@@ -4,7 +4,7 @@ import graph.Vertex;
 import graph.VertexType;
 import org.junit.jupiter.api.Test;
 import graph.CDG;
-import static util.graph.Exporter.exportCDGAsDot;
+import static application.util.graph.Exporter.exportCDGAsDot;
 
 import java.io.File;
 import java.io.FileNotFoundException;

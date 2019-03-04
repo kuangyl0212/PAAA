@@ -1,4 +1,4 @@
-package util.graph;
+package application.util.graph;
 
 import graph.CDG;
 import org.jgrapht.io.*;

@@ -1,5 +1,5 @@
 // Generated from Tree.g4 by ANTLR 4.7.2
-package util.graph.tree.parse;
+package application.util.graph.tree.parse;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.fail;
 
-import util.parser.python.Builder;
+import application.util.parser.python.Builder;
 
 public class Python3ParserTest {
 

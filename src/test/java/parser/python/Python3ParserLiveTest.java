@@ -15,7 +15,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import util.parser.python.DescriptiveBailErrorListener;
+import application.util.parser.python.DescriptiveBailErrorListener;
 
 public class Python3ParserLiveTest {
 

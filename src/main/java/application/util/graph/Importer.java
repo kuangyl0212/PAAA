@@ -1,4 +1,4 @@
-package util.graph;
+package application.util.graph;
 
 import graph.CDG;
 import graph.Vertex;
@@ -8,9 +8,9 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import util.graph.tree.parse.TreeBaseVisitor;
-import util.graph.tree.parse.TreeLexer;
-import util.graph.tree.parse.TreeParser;
+import application.util.graph.tree.parse.TreeBaseVisitor;
+import application.util.graph.tree.parse.TreeLexer;
+import application.util.graph.tree.parse.TreeParser;
 
 import java.util.Stack;
 
