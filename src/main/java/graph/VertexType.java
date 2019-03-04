@@ -1,5 +1,7 @@
 package graph;
 
+import exception.InvalidVertexType;
+
 public enum VertexType {
     HEAD,               /* start rule                   */
     FUNC_DEF,           /* function definition          */
@@ -30,7 +32,7 @@ public enum VertexType {
             case "STRUCT_DEC_LIST": return STRUCT_DEC_LIST;
             case "STRUCT_DEC":      return STRUCT_DEC;
         }
-        throw new Throwable();   // TODO define some meaningful expectations
+        throw new InvalidVertexType();
     }
 
 }
