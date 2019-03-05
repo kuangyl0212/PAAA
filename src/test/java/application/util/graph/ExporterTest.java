@@ -30,21 +30,21 @@ public class ExporterTest {
     @Test
     void exportNonEmptyCDGAsLispStyleTest() {
         String formalString = "(HEAD)";
-        CDG cdg = importFrom(formalString);
+        CDG cdg = importCDGFrom(formalString);
         assertEquals(formalString, exportCDGAsLispStyle(cdg));
     }
 
     @Test
     void exportCDGAsLispStyleTest() {
         String formalString = "(HEAD FUNC_DEF)";
-        CDG cdg = importFrom(formalString);
+        CDG cdg = importCDGFrom(formalString);
         assertEquals(formalString, exportCDGAsLispStyle(cdg));
     }
 
     @Test
     void exportCDGAsLispStyleMoreTest() {
         String formalString = "(HEAD (FUNC_DEF (BLOCK EXPR_STAT)))";
-        CDG cdg = importFrom(formalString);
+        CDG cdg = importCDGFrom(formalString);
         assertEquals(formalString, exportCDGAsLispStyle(cdg));
     }
 
@@ -55,7 +55,7 @@ public class ExporterTest {
                 " EXPR_STAT" +
                 " DECLARATION" +
                 " (SEL_STAT (SEL_CLAUSE EXPR_STAT)))";
-        CDG cdg = importFrom(formalString);
+        CDG cdg = importCDGFrom(formalString);
         assertEquals(formalString, exportCDGAsLispStyle(cdg));
     }
 

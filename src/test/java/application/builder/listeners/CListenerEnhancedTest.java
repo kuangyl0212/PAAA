@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import application.util.graph.Exporter;
 
-import static application.util.graph.Importer.importFrom;
+import static application.util.graph.Importer.importCDGFrom;
 import static application.util.graph.Exporter.exportCDGAsDot;
 
 public class CListenerEnhancedTest {
@@ -44,7 +44,7 @@ public class CListenerEnhancedTest {
     }
 
     private String getDotFrom(String formalString) {
-        return exportCDGAsDot(importFrom(formalString));
+        return exportCDGAsDot(importCDGFrom(formalString));
     };
 
     /**

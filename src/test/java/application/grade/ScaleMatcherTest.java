@@ -4,7 +4,7 @@ import graph.CDG;
 import graph.VertexType;
 import org.junit.jupiter.api.Test;
 
-import static application.util.graph.Importer.importFrom;
+import static application.util.graph.Importer.importCDGFrom;
 import static application.config.scale.Parameter.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +13,7 @@ class ScaleMatcherTest {
 
     @Test
     void oneVertexTypeCounterTest() {
-        CDG cdg = importFrom("(HEAD" +
+        CDG cdg = importCDGFrom("(HEAD" +
                 "(FUNC_DEF))");
         Scale scale = new Scale(cdg);
         assertEquals(1, scale.get(VertexType.FUNC_DEF));
@@ -21,7 +21,7 @@ class ScaleMatcherTest {
 
     @Test
     void moreTypeTest() {
-        CDG cdg = importFrom("(HEAD" +
+        CDG cdg = importCDGFrom("(HEAD" +
                 "(FUNC_DEF" +
                 "   (BLOCK" +
                 "       (SEL_STAT" +
@@ -39,7 +39,7 @@ class ScaleMatcherTest {
 
     @Test
     void sameScaleTest() {
-        CDG cdg = importFrom("(HEAD" +
+        CDG cdg = importCDGFrom("(HEAD" +
                 "(FUNC_DEF" +
                 "   (BLOCK" +
                 "       (SEL_STAT" +
@@ -53,7 +53,7 @@ class ScaleMatcherTest {
 
     @Test
     void totalDifferentScaleTest() {
-        CDG cdgTmp = importFrom("(HEAD" +
+        CDG cdgTmp = importCDGFrom("(HEAD" +
                 "(FUNC_DEF" +
                 "   (BLOCK" +
                 "       (SEL_STAT" +
@@ -61,14 +61,14 @@ class ScaleMatcherTest {
                 "           (SEL_STAT" +
                 "               (SEL_CLAUSE EXPR_STAT)" +
                 "               (SEL_CLAUSE EXPR_STAT))))))");
-        CDG cdgStu = importFrom("(HEAD)");
+        CDG cdgStu = importCDGFrom("(HEAD)");
         double actual = ScaleMatcher.grade(cdgTmp, cdgStu);
         assertEquals(0, actual);
     }
 
     @Test
     void oneTypeSameTest(){
-        CDG cdgTmp = importFrom("(HEAD" +
+        CDG cdgTmp = importCDGFrom("(HEAD" +
                 "(FUNC_DEF" +
                 "   (BLOCK" +
                 "       (SEL_STAT" +
@@ -76,14 +76,14 @@ class ScaleMatcherTest {
                 "           (SEL_STAT" +
                 "               (SEL_CLAUSE EXPR_STAT)" +
                 "               (SEL_CLAUSE EXPR_STAT))))))");
-        CDG cdgStu = importFrom("(HEAD FUNC_DEF)");
+        CDG cdgStu = importCDGFrom("(HEAD FUNC_DEF)");
         double actual = ScaleMatcher.grade(cdgTmp, cdgStu);
         assertEquals( SCALE_BASE / cdgTmp.howManyTypeVertexWithouHead(), actual);
     }
 
     @Test
     void someTypeSameTest(){
-        CDG cdgTmp = importFrom("(HEAD" +
+        CDG cdgTmp = importCDGFrom("(HEAD" +
                 "(FUNC_DEF" +
                 "   (BLOCK" +
                 "       (SEL_STAT" +
@@ -91,7 +91,7 @@ class ScaleMatcherTest {
                 "           (SEL_STAT" +
                 "               (SEL_CLAUSE EXPR_STAT)" +
                 "               (SEL_CLAUSE EXPR_STAT))))))");
-        CDG cdgStu = importFrom("(HEAD " +
+        CDG cdgStu = importCDGFrom("(HEAD " +
                 "(FUNC_DEF" +
                 "   (BLOCK EXPR_STAT)))");
         double actual = ScaleMatcher.grade(cdgTmp, cdgStu);

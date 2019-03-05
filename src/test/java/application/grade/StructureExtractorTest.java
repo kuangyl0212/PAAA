@@ -1,18 +1,17 @@
 package application.grade;
 
-import application.util.graph.Exporter;
 import graph.CDG;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static application.util.graph.Importer.importFrom;
+import static application.util.graph.Importer.importCDGFrom;
 import static application.util.graph.Exporter.exportCDGAsLispStyle;
 
 class StructureExtractorTest {
 
     @Test
     void extractHeadTest() {
-        CDG inputCDG = importFrom("(HEAD)");
+        CDG inputCDG = importCDGFrom("(HEAD)");
         StructureExtractor extractor = new StructureExtractor(inputCDG);
         CDG outputCDG = extractor.get();
         assertEquals("(HEAD)", exportCDGAsLispStyle(outputCDG));
@@ -20,7 +19,7 @@ class StructureExtractorTest {
 
     @Test
     void extractTest() {
-        CDG inputCDG = importFrom("(HEAD " +
+        CDG inputCDG = importCDGFrom("(HEAD " +
                 "DECLARATION" +
                 "FUNC_DEF)");
         String expected = "(HEAD NODE FUNC_DEF)";
@@ -31,7 +30,7 @@ class StructureExtractorTest {
 
     @Test
     void extractMoreTest() {
-        CDG inputCDG = importFrom("(HEAD" +
+        CDG inputCDG = importCDGFrom("(HEAD" +
                 " DECLARATION" +
                 " FUNC_DEF" +
                 " DECLARATION)");
@@ -43,7 +42,7 @@ class StructureExtractorTest {
 
     @Test
     void extractMuchMoreTest() {
-        CDG inputCDG = importFrom("(HEAD" +
+        CDG inputCDG = importCDGFrom("(HEAD" +
                 " DECLARATION" +
                 " EXPR_STAT" +
                 " (FUNC_DEF " +
