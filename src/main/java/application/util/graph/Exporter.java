@@ -1,10 +1,11 @@
 package application.util.graph;
 
 import graph.CDG;
+import graph.Edge;
 import org.jgrapht.io.*;
 import java.io.Writer;
 import java.io.StringWriter;
-import org.jgrapht.graph.DefaultEdge;
+
 import graph.Vertex;
 
 public class Exporter {
@@ -20,7 +21,7 @@ public class Exporter {
                 return vertex.getType().toString();
             }
         };
-        GraphExporter<Vertex, DefaultEdge> exporter =
+        GraphExporter<Vertex, Edge> exporter =
                 new DOTExporter<>(vertexIdProvider, vertexLabelProvider, null);
 
         String dotString = "invalid graph";
@@ -34,5 +35,44 @@ public class Exporter {
 
         }
         return dotString;
+    }
+
+    public static String exportCDGAsLispStyle(CDG cdg) {
+        if (isEmptyCDG(cdg))
+            return "()";
+        else
+            return exportAsLispStyleFromHead(cdg);
+
+    }
+
+    private static boolean isEmptyCDG(CDG cdg) {
+        return cdg.vertexSet().size() == 0;
+    }
+
+    private static String exportAsLispStyleFromHead(CDG cdg) {
+        Vertex head = cdg.getHead();
+//        lispStyle += head.getType().toString();
+        return exportFrom(head, cdg);
+    }
+
+    private static String exportFrom(Vertex vertex, CDG cdg) {
+        String lispStyle = "";
+        if (cdg.isTerminal(vertex)){
+            if (cdg.isHead(vertex)) {
+                lispStyle = "(" + vertex.getType().toString() + ")";
+            }
+            else lispStyle += " " + vertex.getType().toString();
+        }
+        else {
+            lispStyle += "(" + vertex.getType().toString();
+            if (!cdg.isHead(vertex))
+                lispStyle = " " + lispStyle;
+            for (Vertex child: cdg.getChildrenOf(vertex)
+                 ) {
+                lispStyle += exportFrom(child, cdg);
+            }
+            lispStyle += ")";
+        }
+        return lispStyle;
     }
 }

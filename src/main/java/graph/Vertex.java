@@ -21,4 +21,11 @@ public class Vertex implements Serializable {
     }
     public ParserRuleContext getCtx() {return ctx;}
 
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
+
+    public boolean equals(Vertex vertex) {
+        return this.hashCode() == vertex.hashCode();
+    }
 }
