@@ -2,8 +2,6 @@ package application.util.graph;
 
 import application.util.graph.parse.generaltree.GeneralTreeBaseVisitor;
 import application.util.graph.parse.generaltree.GeneralTreeParser;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
 
 import java.util.Stack;
 

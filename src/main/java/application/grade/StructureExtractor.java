@@ -13,13 +13,13 @@ public class StructureExtractor {
     private CDG inputCDG;
     private CDG outputCDG;
     private Stack<Vertex> vertexStack;
-    private boolean seenNormalNode;
+    private boolean hadSeenNode;
 
-    public StructureExtractor(CDG inputCDG) {
+    StructureExtractor(CDG inputCDG) {
         this.inputCDG = inputCDG;
         outputCDG = new CDG();
         vertexStack = new Stack<>();
-        seenNormalNode = false;
+        hadSeenNode = false;
         Vertex head = inputCDG.getHead();
         extractFrom(head);
     }
@@ -29,80 +29,89 @@ public class StructureExtractor {
     }
 
     private void extractFrom(Vertex vertex) {
-        if (isHead(vertex))
-            handleHead(vertex);
+        if (isHead(vertex)) {
+            addHeadAndPushToStack();
+            extractChildrenOf(vertex);
+            addNodeIfSeen();
+            popStack();
+        }
         else if (isTerminal(vertex))
-            handleTerminal(vertex);
-        else
-            handleNonTerminal(vertex);
+            seenTerminalVertexHandler(vertex);
+        else {
+            addNodeIfSeen();
+            addVertexAndEdgeAndPushToStack(vertex.getType());
+            extractChildrenOf(vertex);
+            addNodeIfSeen();
+            popStack();
+        }
+
     }
 
     private boolean isHead(Vertex vertex) {
         return inputCDG.isHead(vertex);
     }
 
-    private void handleHead(Vertex head) {
+    private void addHeadAndPushToStack() {
         vertexStack.add(addHead());
-        handleChildrenOf(head);
-        if (seenNormalNode) {
-            addNormalNodeAndEdge();
-        }
-        vertexStack.pop();
     }
 
     private Vertex addHead() {
-        Vertex newHead = new Vertex(HEAD);
-        outputCDG.addVertex(newHead);
-        return newHead;
+        Vertex vertex = new Vertex(HEAD);
+        outputCDG.addVertex(vertex);
+        return vertex;
     }
 
-    private void handleChildrenOf(Vertex vertex) {
+    private void addNodeIfSeen() {
+        if (hadSeenNode) {
+            addNodeAndEdge();
+            unSeenNode();
+        }
+    }
+
+    private void popStack() {
+        vertexStack.pop();
+    }
+
+    private void extractChildrenOf(Vertex vertex) {
         ArrayList<Vertex> children = inputCDG.getChildrenOf(vertex);
         for (Vertex child: children)
             extractFrom(child);
     }
 
-    private void addNormalNodeAndEdge() {
-        addNodeAndEdge(NODE);
+    private void addNodeAndEdge() {
+        addVertexAndEdge(NODE);
     }
 
     private boolean isTerminal(Vertex vertex) {
         return inputCDG.isTerminal(vertex);
     }
 
-    private void handleTerminal(Vertex vertex) {
+    private void seenTerminalVertexHandler(Vertex vertex) {
         if (isOtherType(vertex.getType()))
-            seenNormalNode = true;
+            seenNode();
         else{
-            if (seenNormalNode) addNormalNodeAndEdge();
-            addNodeAndEdge(vertex.getType());
-            seenNormalNode = false;
+            addNodeIfSeen();
+            addVertexAndEdge(vertex.getType());
+            unSeenNode();
         }
-
     }
 
-    private Vertex addNodeAndEdge(VertexType type) {
+    private void addVertexAndEdgeAndPushToStack(VertexType type) {
+        vertexStack.push(addVertexAndEdge(type));
+    }
+
+    private Vertex addVertexAndEdge(VertexType type) {
         Vertex newNode = new Vertex(type);
         outputCDG.addVertex(newNode);
         outputCDG.addEdge(vertexStack.peek(), newNode);
         return newNode;
     }
 
-    /*
-     * Since non-terminal node can not be otherType
-     * There is no need to do the redundant check
-     * It is not rigorous though
-     * */
-    private void handleNonTerminal(Vertex vertex) {
-        if (seenNormalNode)
-            addNormalNodeAndEdge();
-        seenNormalNode = false;
-        Vertex nonTerminalNode = addNodeAndEdge(vertex.getType());
-        vertexStack.add(nonTerminalNode);
-        handleChildrenOf(vertex);
-        if (seenNormalNode)
-            addNormalNodeAndEdge();
-        vertexStack.pop();
-        seenNormalNode = false;
+    private void seenNode() {
+        hadSeenNode = true;
+    }
+
+    private void unSeenNode() {
+        hadSeenNode = false;
     }
 }

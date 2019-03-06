@@ -25,7 +25,7 @@ public class TreeVisitor extends TreeBaseVisitor<Integer> {
     @Override public Integer visitNode(TreeParser.NodeContext ctx) {
         String label = ctx.getText();
 
-        Vertex nexVertex = null;
+        Vertex nexVertex;
         try {
             nexVertex = new Vertex(VertexType.getTypeFrom(label));
             graph.addVertex(nexVertex);
@@ -57,7 +57,7 @@ public class TreeVisitor extends TreeBaseVisitor<Integer> {
     private void visitHeadAndPushStack(TreeParser.TreeContext ctx) {
 
         String label = ctx.getChild(1).getText();
-        Vertex newVertex = null;
+        Vertex newVertex;
         try {
             newVertex = new Vertex(VertexType.getTypeFrom(label));
             graph.addVertex(newVertex);

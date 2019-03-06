@@ -1,6 +1,6 @@
-/**
- * THESE TEST IS NOT EASY TO UNDERSTAND
- * @WARNNING !!!PLEASE REFER TO THE PAPER IF YOU WANT CHANGE SOMETHING
+/*
+ * THESE TESTS ARE NOT EASY TO UNDERSTAND
+ * @WARNING !!!PLEASE REFER TO THE PAPER IF YOU WANT CHANGE SOMETHING
  */
 
 package application.grade;
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static application.util.graph.Importer.*;
+import static application.config.structure.Parameter.*;
 
 class StructureMatcherTest {
 
@@ -18,6 +19,7 @@ class StructureMatcherTest {
         CDG cdg = importCDGFrom("(HEAD)");
         StructureMatcher matcher = new StructureMatcher(cdg, cdg);
         assertEquals(1, matcher.howManyVertexesMatched());
+        assertEquals(0, matcher.grade());
     }
 
     @Test
@@ -25,6 +27,7 @@ class StructureMatcherTest {
         CDG cdg = importCDGFrom("(HEAD FUNC_DEF)");
         StructureMatcher matcher = new StructureMatcher(cdg, cdg);
         assertEquals(2, matcher.howManyVertexesMatched());
+        assertEquals(STRUCTURE_BASE, matcher.grade());
     }
 
     @Test
@@ -43,7 +46,7 @@ class StructureMatcherTest {
         CDG paired = matcher.whichVertexesMatched();
         assertEquals(8, matcher.howManyVertexesMatched());
         assertEquals(8, paired.vertexSet().size());
-
+        assertEquals(STRUCTURE_BASE, matcher.grade());
     }
 
     @Test
@@ -58,6 +61,7 @@ class StructureMatcherTest {
         CDG CDG_B = importCDGFrom("(HEAD)");
         StructureMatcher matcher = new StructureMatcher(CDG_A, CDG_B);
         assertEquals(1, matcher.howManyVertexesMatched());
+        assertEquals(0, matcher.grade());
     }
 
     @Test
@@ -80,7 +84,10 @@ class StructureMatcherTest {
         CDG paired = matcher.whichVertexesMatched();
         assertEquals(3, matcher.howManyVertexesMatched());
         assertEquals(3, paired.vertexSet().size());
-
+        System.out.println(matcher.howManyMatchedOfEachType());
+        String expected = String.format("%.2f", STRUCTURE_BASE * 4 / 9);
+        String actual = String.format("%2.2f", matcher.grade());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -108,6 +115,15 @@ class StructureMatcherTest {
         CDG paired = matcher.whichVertexesMatched();
         assertEquals(7, matcher.howManyVertexesMatched());
         assertEquals(7, paired.vertexSet().size());
-
+        VertexTypeCount matchedTypeCount = matcher.howManyMatchedOfEachType();
+        System.out.println(matchedTypeCount);
+        String expectedCount = "iterations: \t0\n" +
+                "selections: \t2\n" +
+                "functionDef: \t1\n" +
+                "other: \t\t\t2\n";
+        assertEquals(expectedCount, matchedTypeCount.toString());
+        String expected = String.format("%.2f", STRUCTURE_BASE * 8 / 9);
+        String actual = String.format("%2.2f", matcher.grade());
+        assertEquals(expected, actual);
     }
 }

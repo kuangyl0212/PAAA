@@ -12,30 +12,14 @@ import graph.Vertex;
 public class Exporter {
 
     private  static ComponentNameProvider<Vertex> CDGVertexIdProvider =
-            new ComponentNameProvider<Vertex>() {
-                public String getName(Vertex vertex) {
-                    return vertex.getType().toString();
-                }
-            };
+            vertex -> vertex.getType().toString();
     private static ComponentNameProvider<Vertex> CDGVertexLabelProvider  =
-            new ComponentNameProvider<Vertex>() {
-                public String getName(Vertex vertex) {
-                    return vertex.getType().toString();
-                }
-            };
+            vertex -> vertex.getType().toString();
 
     private  static ComponentNameProvider<String> simpleGraphVertexIdProvider =
-            new ComponentNameProvider<String>() {
-                public String getName(String vertex) {
-                    return vertex;
-                }
-            };
+            vertex -> vertex;
     private static ComponentNameProvider<String> simpleGraphVertexLabelProvider  =
-            new ComponentNameProvider<String>() {
-                public String getName(String vertex) {
-                    return vertex;
-                }
-            };
+            vertex -> vertex;
 
     private static GraphExporter<Vertex, Edge> CDGExporter =
             new DOTExporter<>(CDGVertexIdProvider, CDGVertexLabelProvider, null);
@@ -53,13 +37,13 @@ public class Exporter {
             CDGExporter.exportGraph(graph, writer);
             dotString = writer.toString();
         }
-        catch (ExportException e) {
+        catch (ExportException ignored) {
 
         }
         return dotString;
     }
 
-    public static String exportSimpleGraphAsDot(SimpleGraph graph) {
+    static String exportSimpleGraphAsDot(SimpleGraph graph) {
 
         String dotString = "invalid graph";
 
@@ -68,7 +52,7 @@ public class Exporter {
             simpleGraphExporter.exportGraph(graph, writer);
             dotString = writer.toString();
         }
-        catch (ExportException e) {
+        catch (ExportException ignored) {
 
         }
         return dotString;
