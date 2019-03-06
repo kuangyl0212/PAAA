@@ -11,6 +11,7 @@ public class Vertex implements Serializable {
     public Vertex(VertexType type) {
         this.type = type;
     }
+    public Vertex(String type) throws Throwable {this.type = VertexType.getTypeFrom(type);}
     public VertexType getType() {
         return type;
     }
@@ -20,4 +21,11 @@ public class Vertex implements Serializable {
     }
     public ParserRuleContext getCtx() {return ctx;}
 
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
+
+    public boolean equals(Vertex vertex) {
+        return this.hashCode() == vertex.hashCode();
+    }
 }
