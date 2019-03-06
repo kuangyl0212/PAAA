@@ -6,12 +6,12 @@ import graph.Vertex;
 import graph.VertexType;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import application.util.graph.Exporter;
 
-import static application.util.graph.Importer.importFrom;
+import static application.util.graph.Importer.importCDGFrom;
 import static application.util.graph.Exporter.exportCDGAsDot;
 
 public class CListenerEnhancedTest {
@@ -44,7 +44,7 @@ public class CListenerEnhancedTest {
     }
 
     private String getDotFrom(String formalString) {
-        return exportCDGAsDot(importFrom(formalString));
+        return exportCDGAsDot(importCDGFrom(formalString));
     };
 
     /**

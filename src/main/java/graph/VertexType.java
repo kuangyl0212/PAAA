@@ -2,6 +2,9 @@ package graph;
 
 import exception.InvalidVertexType;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public enum VertexType {
     HEAD,               /* start rule                   */
     FUNC_DEF,           /* function definition          */
@@ -15,6 +18,8 @@ public enum VertexType {
     STRUCT_SPEC,        /* struct or union specifier    */
     STRUCT_DEC_LIST,    /* struct declaration list      */
     STRUCT_DEC,         /* struct declaration           */
+
+    NODE,               /* only for structure matching  */
     ;
 
     public static VertexType getTypeFrom(String string) throws Throwable {
@@ -33,6 +38,38 @@ public enum VertexType {
             case "STRUCT_DEC":      return STRUCT_DEC;
         }
         throw new InvalidVertexType();
+    }
+
+    private static ArrayList<VertexType>
+            iterationType = new ArrayList<>(),
+            selectionType = new ArrayList<>(),
+            functionDefinitionType = new ArrayList<>(),
+            structureSpecifierType = new ArrayList<>(),
+            blockType = new ArrayList<>(),
+            otherType = new ArrayList<>()
+            ;
+
+    static {
+        iterationType.add(ITER_STAT);
+
+        selectionType.add(SEL_STAT);
+        selectionType.add(SEL_CLAUSE);
+
+        functionDefinitionType.add(FUNC_DEF);
+
+        structureSpecifierType.add(STRUCT_SPEC);
+        structureSpecifierType.add(STRUCT_DEC_LIST);
+
+        blockType.add(BLOCK);
+
+        otherType.add(DECLARATION);
+        otherType.add(EXPR_STAT);
+        otherType.add(JUMP_STAT);
+        otherType.add(STRUCT_DEC);
+    }
+
+    public static boolean isOtherType(VertexType type) {
+        return otherType.contains(type);
     }
 
 }

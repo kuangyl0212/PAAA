@@ -6,9 +6,9 @@ import org.jgrapht.graph.DefaultEdge;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CDG extends DefaultDirectedGraph<Vertex, DefaultEdge> {
+public class CDG extends BaseGraph {
    public CDG() {
-       super(DefaultEdge.class);
+
    }
 
     public boolean addVertex(VertexType type) {

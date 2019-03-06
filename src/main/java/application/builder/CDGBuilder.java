@@ -34,7 +34,6 @@ public class CDGBuilder implements GraphBuilder {
         /* some magic refer to
           https://stackoverflow.com/questions/3402735/what-is-simplest-way-to-read-a-file-into-string */
 
-        String content = new Scanner(file).useDelimiter("\\Z").next();
-        return content;
+        return new Scanner(file).useDelimiter("\\Z").next();
     }
 }

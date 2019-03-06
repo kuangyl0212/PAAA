@@ -1,5 +1,5 @@
 // Generated from Tree.g4 by ANTLR 4.7.2
-package application.util.graph.tree.parse;
+package application.util.graph.parse.tree;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

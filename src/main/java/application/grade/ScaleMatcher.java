@@ -5,17 +5,17 @@ import graph.CDG;
 import graph.VertexType;
 
 public class ScaleMatcher {
-    public static double funcDef          = FUNC_DEF;             /* function definition          */
-    public static double declaration      = DECLARATION;          /* declaration                  */
-    public static double block            = BLOCK;                /* block statement list         */
-    public static double exprStat         = EXPR_STAT;            /* expression statement         */
-    public static double iterStat         = ITER_STAT;            /* iteration statement          */
-    public static double jumpStat         = JUMP_STAT;            /* jump statement               */
-    public static double selStat          = SEL_STAT;             /* selection statement          */
-    public static double selClause        = SEL_CLAUSE;           /* selection clause             */
-    public static double structSpec       = STRUCT_SPEC;          /* struct or union specifier    */
-    public static double structDecList    = STRUCT_DEC_LIST;      /* struct declaration list      */
-    public static double structDec        = STRUCT_DEC;           /* struct declaration   */
+    private static double funcDef          = FUNC_DEF;             /* function definition          */
+    private static double declaration      = DECLARATION;          /* declaration                  */
+    private static double block            = BLOCK;                /* block statement list         */
+    private static double exprStat         = EXPR_STAT;            /* expression statement         */
+    private static double iterStat         = ITER_STAT;            /* iteration statement          */
+    private static double jumpStat         = JUMP_STAT;            /* jump statement               */
+    private static double selStat          = SEL_STAT;             /* selection statement          */
+    private static double selClause        = SEL_CLAUSE;           /* selection clause             */
+    private static double structSpec       = STRUCT_SPEC;          /* struct or union specifier    */
+    private static double structDecList    = STRUCT_DEC_LIST;      /* struct declaration list      */
+    private static double structDec        = STRUCT_DEC;           /* struct declaration   */
 
     public static double grade(CDG tmpCDG, CDG stuCDG) {
         Scale tmpScale = new Scale(tmpCDG), stuScale = new Scale(stuCDG);
