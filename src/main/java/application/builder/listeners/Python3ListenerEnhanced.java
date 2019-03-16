@@ -59,12 +59,12 @@ public class Python3ListenerEnhanced extends Python3BaseListener{
 	}
 	
 	@Override
-	void enterFuncdef(Python3Parser.FuncdefContext ctx) {
+	public void enterFuncdef(Python3Parser.FuncdefContext ctx) {
 		addVertexWithCtxAndEdgeThenPushToStack(VertexType.FUNC_DEF, ctx);
 	}
 	
 	@Override
-	void exitFuncdef(Python3Parser.FuncdefContext ctx) {
+	public void exitFuncdef(Python3Parser.FuncdefContext ctx) {
 		vertexStack.pop();
 	}
 	
