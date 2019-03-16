@@ -67,7 +67,27 @@ public class JavaListenerEnhanced extends JavaBaseListener {
         addVertexWithCtxAndEdgeThenPushToStack(VertexType.HEAD, ctx);
     }
 
-    @Override public void exitEveryRule(ParserRuleContext ctx) {
+    @Override public void exitTypeDeclaration(JavaParser.TypeDeclarationContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void exitVariableDeclarator(JavaParser.VariableDeclaratorContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void exitStatement(JavaParser.StatementContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void exitForControl(JavaParser.ForControlContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void exitClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
         vertexStack.pop();
     }
 
