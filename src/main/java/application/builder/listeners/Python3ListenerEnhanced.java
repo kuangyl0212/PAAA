@@ -48,42 +48,28 @@ public class Python3ListenerEnhanced extends Python3BaseListener{
         vertexStack.pop();
     }
 	
+	@override
+	public void enterExpr_stmt(Python3Parser.Expr_stmtContext ctx) {
+		addVertexWithCtxAndEdgeThenPushToStack(VertexType.EXPR_STAT, ctx);
+	}
+	
+	@override
+	public void exitExpr_stmt(Python3Parser.Expr_stmtContext ctx) {
+		vertexStack.pop();
+	}
+	
+	@Override
+	void enterFuncdef(Python3Parser.FuncdefContext ctx) {
+		addVertexWithCtxAndEdgeThenPushToStack(VertexType.FUNC_DEF, ctx);
+	}
+	
+	@Override
+	void exitFuncdef(Python3Parser.FuncdefContext ctx) {
+		vertexStack.pop();
+	}
+	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
