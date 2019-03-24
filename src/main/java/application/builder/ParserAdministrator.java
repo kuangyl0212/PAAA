@@ -1,5 +1,6 @@
 package application.builder;
 
+import application.builder.listeners.Python3ListenerEnhanced;
 import application.config.Global;
 import application.builder.listeners.CListenerEnhanced;
 import graph.CDG;
@@ -103,6 +104,7 @@ public class ParserAdministrator {
                 return new CListenerEnhanced(emptyCDG);
             case JAVA:
             case PYTHON:
+                return new Python3ListenerEnhanced(emptyCDG);
         }
         // TODO throw some expectation here
         return null;
