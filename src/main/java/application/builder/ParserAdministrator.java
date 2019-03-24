@@ -1,5 +1,6 @@
 package application.builder;
 
+import application.builder.listeners.PythonListenerEnhanced;
 import application.config.Global;
 import application.builder.listeners.CListenerEnhanced;
 import graph.CDG;
@@ -44,7 +45,7 @@ public class ParserAdministrator {
     }
 
     private void setLexerAndParser() {
-        switch (Global.LAN) {
+        switch (Global.getLAN()) {
             case C:
                 setLexer(new CLexer(charStream));
                 setTokenStream(new CommonTokenStream(lexer));
@@ -78,7 +79,7 @@ public class ParserAdministrator {
     }
 
     private void setParseTree() {
-        switch (Global.LAN) {
+        switch (Global.getLAN()) {
             case C:
                 parseTree = ((CParser)parser).compilationUnit();
                 break;
@@ -98,11 +99,12 @@ public class ParserAdministrator {
     }
 
     public ParseTreeListener getListener(CDG emptyCDG) {
-        switch (Global.LAN) {
+        switch (Global.getLAN()) {
             case C:
                 return new CListenerEnhanced(emptyCDG);
-            case JAVA:
             case PYTHON:
+                return new PythonListenerEnhanced(emptyCDG);
+            case JAVA:
         }
         // TODO throw some expectation here
         return null;

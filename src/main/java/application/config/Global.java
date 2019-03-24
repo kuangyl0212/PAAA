@@ -1,5 +1,13 @@
 package application.config;
 
 public class Global {
-    public static LANG LAN = LANG.C;
+    private static LANG LAN = LANG.PYTHON;
+
+    public static void setLAN(LANG LAN) {
+        Global.LAN = LAN;
+    }
+
+    public static LANG getLAN() {
+        return LAN;
+    }
 }

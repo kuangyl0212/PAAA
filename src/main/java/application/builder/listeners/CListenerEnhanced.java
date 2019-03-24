@@ -9,7 +9,7 @@ import parser.c.CBaseListener;
 import parser.c.CLexer;
 import parser.c.CParser;
 
-public class CListenerEnhanced extends CBaseListener {
+public class CListenerEnhanced extends CBaseListener implements Common {
     private Stack<Vertex> vertexStack;
     private CDG cdg;
 
@@ -19,25 +19,14 @@ public class CListenerEnhanced extends CBaseListener {
         cdg = emptyCDG;
     }
 
-    private void addVertexWithCtxAndEdgeThenPushToStack(VertexType vertexType, ParserRuleContext ctx) {
-        Vertex newVertex = creatVertexWithCtx(vertexType, ctx);
-        addVertexAndEdge(newVertex);
-        pushToStack(newVertex);
+    @Override
+    public CDG getCDG() {
+        return cdg;
     }
 
-    private Vertex creatVertexWithCtx(VertexType vertexType, ParserRuleContext ctx) {
-        Vertex newVertex = new Vertex(vertexType);
-        newVertex.setCtx(ctx);
-        return newVertex;
-    }
-
-    private void addVertexAndEdge(Vertex newVertex) {
-        cdg.addVertex(newVertex);
-        cdg.addEdge(vertexStack.peek(), newVertex);
-    }
-
-    private void pushToStack(Vertex vertex) {
-        vertexStack.push(vertex);
+    @Override
+    public Stack<Vertex> getStack() {
+        return vertexStack;
     }
 
     private boolean isCaseClause(CParser.LabeledStatementContext ctx) {

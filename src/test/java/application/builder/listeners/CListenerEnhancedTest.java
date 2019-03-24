@@ -1,6 +1,8 @@
 package application.builder.listeners;
 
 import application.builder.ParserAdministrator;
+import application.config.Global;
+import application.config.LANG;
 import graph.CDG;
 import graph.Vertex;
 import graph.VertexType;
@@ -14,13 +16,15 @@ import application.util.graph.Exporter;
 import static application.util.graph.Importer.importCDGFrom;
 import static application.util.graph.Exporter.exportCDGAsDot;
 
-public class CListenerEnhancedTest {
+class CListenerEnhancedTest {
     private ParserAdministrator administrator;
     private CDG cdg;
-    private CDG baseCdg;
-    private Vertex baseBlock;
     private CListenerEnhanced listenerEnhanced;
     private ParseTreeWalker  walker;
+
+    CListenerEnhancedTest() {
+        Global.setLAN(LANG.C);
+    }
 
     private String getDotStringFrom(String sourceCode) {
         resetTest();
@@ -52,7 +56,7 @@ public class CListenerEnhancedTest {
      *  void main() {}
      */
     private void buildBaseCDG() {
-        baseCdg = new CDG();
+        CDG baseCdg = new CDG();
         Vertex head = new Vertex(VertexType.HEAD);
         baseCdg.addVertex(head);
         Vertex fun = new Vertex(VertexType.FUNC_DEF);
@@ -61,12 +65,11 @@ public class CListenerEnhancedTest {
         Vertex block = new Vertex(VertexType.BLOCK);
         baseCdg.addVertex(block);
         baseCdg.addEdge(fun, block);
-        baseBlock = block;
     }
 
 
     @Test
-    public void creatHeadTest() {
+    void creatHeadTest() {
         String sourceCode = "";
         String actual = getDotStringFrom(sourceCode);
 
@@ -78,7 +81,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatFunctionDefinitionTest() {
+    void creatFunctionDefinitionTest() {
         String actual = getDotStringFrom("void main() {}");
         String expected = getDotFrom("(HEAD FUNC_DEF)");;
 
@@ -86,7 +89,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatDeclarationTest() {
+    void creatDeclarationTest() {
         String actual = getDotStringFrom("int a;");
         String expected = getDotFrom("(HEAD DECLARATION)");
 
@@ -94,7 +97,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatBlockItemListTest() {
+    void creatBlockItemListTest() {
         String actual = getDotStringFrom("void main() {int a;}");
         String expected =
                 getDotFrom("(HEAD " +
@@ -105,7 +108,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatExpressionStatementTest() {
+    void creatExpressionStatementTest() {
         String actual = getDotStringFrom("void main() {printf(\"Hello World\");}");
 
         String expected = getDotFrom("(HEAD" +
@@ -116,7 +119,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void createIterationStatementTest() {
+    void createIterationStatementTest() {
         String actual = getDotStringFrom("void main() {for(;;){}}");
 
         String expected = getDotFrom("(HEAD " +
@@ -127,7 +130,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatJumpStatementTest() {
+    void creatJumpStatementTest() {
         String actual = getDotStringFrom("void main() {return;}");
 
         String expected = getDotFrom("(HEAD " +
@@ -138,7 +141,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatSelectionStatementTest() {
+    void creatSelectionStatementTest() {
         String actual = getDotStringFrom("void main() {if (a > 0) {}}");
 
         String expected = getDotFrom("(HEAD " +
@@ -149,7 +152,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatIfSelectionClauseTest() {
+    void creatIfSelectionClauseTest() {
         String actual = getDotStringFrom("void main() {if (a > 0) {a = 0;}}");
 
         String expected = getDotFrom("(HEAD" +
@@ -164,7 +167,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void createSwitchCaseTest() {
+    void createSwitchCaseTest() {
         String sourceCode = "void main() {switch (a) {case 1: a=0;}}";
         String actual = getDotStringFrom(sourceCode);
 
@@ -178,7 +181,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void createMoreCaseTest() {
+    void createMoreCaseTest() {
         String sourceCode = "void main() {switch (a) {case 1: a=0; case 2: a = 1;}}";
         String actual = getDotStringFrom(sourceCode);
 
@@ -193,7 +196,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void createDefaultCaseTest() {
+    void createDefaultCaseTest() {
         String sourceCode = "void main() {switch (a) {case 1: a=0; default: a = 1;}}";
         String actual = getDotStringFrom(sourceCode);
 
@@ -211,7 +214,7 @@ public class CListenerEnhancedTest {
      * TODO This weird!
      * */
     @Test
-    public void createBlockClauseTest() {
+    void createBlockClauseTest() {
         String sourceCode = "void main() {" +
                 "switch (a) {" +
                 "   case 1: " +
@@ -231,7 +234,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void createIfElseIfElseTest() {
+    void createIfElseIfElseTest() {
         String sourceCode =
                 "void main() {" +
                     "if (a>0) {" +
@@ -258,7 +261,7 @@ public class CListenerEnhancedTest {
     }
 
     @Test
-    public void creatStructTest() {
+    void creatStructTest() {
         String sourceCode = "struct tree {int a;};";
         String actual = getDotStringFrom(sourceCode);
 

@@ -1,5 +1,7 @@
 package application.builder;
 
+import application.config.Global;
+import application.config.LANG;
 import graph.Vertex;
 import graph.VertexType;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ class CDGBuilderTest {
     private CDG sampleCDG;
 
     CDGBuilderTest() {
+        Global.setLAN(LANG.C);
         builder = new CDGBuilder();
         sampleCDG = buildSampleCDG();
     }
