@@ -21,6 +21,16 @@ public class PythonListenerEnhanced extends Python3BaseListener implements Commo
         cdg = emptyCDG;
     }
 
+    @Override
+    public CDG getCDG() {
+        return cdg;
+    }
+
+    @Override
+    public Stack<Vertex> getStack() {
+        return vertexStack;
+    }
+
     private boolean isInSelection(ParserRuleContext ctx) {
         return vertexStack.peek().getType() == SEL_STAT;
     }
@@ -63,12 +73,53 @@ public class PythonListenerEnhanced extends Python3BaseListener implements Commo
     }
 
     @Override
-    public CDG getCDG() {
-        return cdg;
+    public void enterFor_stmt(Python3Parser.For_stmtContext ctx) {
+        addVertexWithCtxAndEdgeThenPushToStack(ITER_STAT, ctx);
+    }
+    @Override
+    public void exitFor_stmt(Python3Parser.For_stmtContext ctx) {
+        vertexStack.pop();
     }
 
-    @Override
-    public Stack<Vertex> getStack() {
-        return vertexStack;
+    @Override public void enterFuncdef(Python3Parser.FuncdefContext ctx) {
+        addVertexWithCtxAndEdgeThenPushToStack(FUNC_DEF, ctx);
+    }
+    @Override public void exitFuncdef(Python3Parser.FuncdefContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void enterReturn_stmt(Python3Parser.Return_stmtContext ctx) {
+        addVertexWithCtxAndEdgeThenPushToStack(JUMP_STAT, ctx);
+    }
+    @Override public void exitReturn_stmt(Python3Parser.Return_stmtContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void enterWhile_stmt(Python3Parser.While_stmtContext ctx) {
+        addVertexWithCtxAndEdgeThenPushToStack(ITER_STAT, ctx);
+    }
+    @Override public void exitWhile_stmt(Python3Parser.While_stmtContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void enterBreak_stmt(Python3Parser.Break_stmtContext ctx) {
+        addVertexWithCtxAndEdgeThenPushToStack(JUMP_STAT, ctx);
+    }
+    @Override public void exitBreak_stmt(Python3Parser.Break_stmtContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void enterContinue_stmt(Python3Parser.Continue_stmtContext ctx) {
+        addVertexWithCtxAndEdgeThenPushToStack(JUMP_STAT, ctx);
+    }
+    @Override public void exitContinue_stmt(Python3Parser.Continue_stmtContext ctx) {
+        vertexStack.pop();
+    }
+
+    @Override public void enterClassdef(Python3Parser.ClassdefContext ctx) {
+        addVertexWithCtxAndEdgeThenPushToStack(CLASS_DEF, ctx);
+    }
+    @Override public void exitClassdef(Python3Parser.ClassdefContext ctx) {
+        vertexStack.pop();
     }
 }

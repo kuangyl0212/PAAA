@@ -2,7 +2,7 @@ package application.config.scale;
 
 public class Parameter {
     
-    public static final double SCALE_BASE       = 1000.0;
+    public static final double SCALE_BASE       = 0.5;
 
     public static final double FUNC_DEF         = 10;           /* function definition          */
     public static final double DECLARATION      = 10;           /* declaration                  */

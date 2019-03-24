@@ -1,6 +1,7 @@
 package parser.python;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -38,6 +39,7 @@ public class Python3ParserTest {
      * Note that running this may take 20 to 30 seconds to complete: it parses
      * all files from Python 3's standard library (http://hg.python.org/cpython/file/default/Lib/).
      */
+    @Ignore
     @Test
     public void testParser() {
 

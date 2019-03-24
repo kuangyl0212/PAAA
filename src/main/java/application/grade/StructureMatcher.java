@@ -47,7 +47,7 @@ public class StructureMatcher {
      * @param CDG_OfStd The graph generated from standard answer
      * @param CDG_OfStu The graph generated from student's answer
      */
-    StructureMatcher(CDG CDG_OfStd, CDG CDG_OfStu) {
+    public StructureMatcher(CDG CDG_OfStd, CDG CDG_OfStu) {
 
         StructureExtractor extractorOfStd = new StructureExtractor(CDG_OfStd);
         StructureExtractor extractorOfStu = new StructureExtractor(CDG_OfStu);

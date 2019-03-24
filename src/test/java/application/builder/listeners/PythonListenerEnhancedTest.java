@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static application.util.graph.Exporter.exportCDGAsLispStyle;
+import static application.util.file.StringReader.readStringFrom;
 
 class PythonListenerEnhancedTest {
     private ParserAdministrator administrator;
@@ -41,10 +42,6 @@ class PythonListenerEnhancedTest {
 
     private String getLispStyleFrom(CDG cdg) {
         return exportCDGAsLispStyle(cdg);
-    }
-
-    private String readStringFrom(String filePath) throws FileNotFoundException {
-        return new Scanner(new File(filePath)).useDelimiter("\\Z").next();
     }
 
     private static String sourceCodeRoot = "src/test/resources/pythonCode/";
@@ -114,9 +111,9 @@ class PythonListenerEnhancedTest {
         String expected =
                 "(HEAD " +
                     "(SEL_STAT " +
-                    "(SEL_CLAUSE EXPR_STAT) " +
-                    "(SEL_CLAUSE EXPR_STAT) " +
-                    "(SEL_CLAUSE EXPR_STAT)))";
+                        "(SEL_CLAUSE EXPR_STAT) " +
+                        "(SEL_CLAUSE EXPR_STAT) " +
+                        "(SEL_CLAUSE EXPR_STAT)))";
         assertEquals(expected, getLispStyleFrom(sourceCode));
     }
 
@@ -131,6 +128,142 @@ class PythonListenerEnhancedTest {
                                 "(SEL_CLAUSE EXPR_STAT) " +
                                 "(SEL_CLAUSE EXPR_STAT))) " +
                         "(SEL_CLAUSE EXPR_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void forStmtTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "for.py");
+        String expected =
+                "(HEAD " +
+                    "(ITER_STAT " +
+                        "(BLOCK EXPR_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void nestedLoopTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "nested_loop.py");
+        String expected =
+                "(HEAD " +
+                    "(ITER_STAT " +
+                        "(BLOCK " +
+                            "(ITER_STAT (BLOCK EXPR_STAT)))))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void whileStmtTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "while.py");
+        String expected =
+                "(HEAD " +
+                    "(ITER_STAT " +
+                    "(BLOCK EXPR_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void breakTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "break.py");
+        String expected =
+                "(HEAD " +
+                    "(ITER_STAT " +
+                    "(BLOCK JUMP_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void continueTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "continue.py");
+        String expected =
+                "(HEAD " +
+                    "(ITER_STAT " +
+                    "(BLOCK JUMP_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void funDefTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "fun_def.py");
+        String expected =
+                "(HEAD " +
+                    "(FUNC_DEF " +
+                        "(BLOCK EXPR_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void returnTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "return.py");
+        String expected =
+                "(HEAD " +
+                    "(FUNC_DEF " +
+                        "(BLOCK JUMP_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void classDefTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "class_def.py");
+        String expected =
+                "(HEAD " +
+                    "(CLASS_DEF " +
+                        "(BLOCK EXPR_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void classDefFullTest() throws FileNotFoundException {
+        String sourceCode = readStringFrom(sourceCodeRoot + "class_def_full.py");
+        String expected =
+                "(HEAD " +
+                    "(CLASS_DEF " +
+                        "(BLOCK " +
+                            "EXPR_STAT " +
+                            "(FUNC_DEF " +
+                                "(BLOCK JUMP_STAT)))))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void realWorldPyTest1() throws FileNotFoundException {
+        String sourceCode = readStringFrom("src/test/resources/py-source-a/006py_source_file1.py");
+        String expected =
+                "(HEAD " +
+                    "(ITER_STAT " +
+                        "(BLOCK " +
+                            "(ITER_STAT " +
+                                "(BLOCK EXPR_STAT)) " +
+                            "(ITER_STAT " +
+                                "(BLOCK EXPR_STAT)) " +
+                            "EXPR_STAT)) " +
+                    "(ITER_STAT " +
+                        "(BLOCK " +
+                            "(ITER_STAT " +
+                                "(BLOCK EXPR_STAT)) " +
+                            "(ITER_STAT " +
+                                "(BLOCK EXPR_STAT)) " +
+                        "EXPR_STAT)))";
+        assertEquals(expected, getLispStyleFrom(sourceCode));
+    }
+
+    @Test
+    void realWorldPyTest2() throws FileNotFoundException {
+        String sourceCode = readStringFrom("src/test/resources/py-source-a/006py_source_file2.py");
+        String expected =
+                "(HEAD " +
+                    "(FUNC_DEF " +
+                        "(BLOCK " +
+                            "(ITER_STAT " +
+                                "(BLOCK " +
+                                    "(ITER_STAT " +
+                                        "(BLOCK " +
+                                            "EXPR_STAT " +
+                                            "EXPR_STAT " +
+                                            "(SEL_STAT " +
+                                                "(SEL_CLAUSE " +
+                                                    "EXPR_STAT)))))))) " +
+                    "EXPR_STAT)";
         assertEquals(expected, getLispStyleFrom(sourceCode));
     }
 }

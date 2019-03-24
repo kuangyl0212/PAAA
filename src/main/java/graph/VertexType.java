@@ -18,6 +18,7 @@ public enum VertexType {
     STRUCT_SPEC,        /* struct or union specifier    */
     STRUCT_DEC_LIST,    /* struct declaration list      */
     STRUCT_DEC,         /* struct declaration           */
+    CLASS_DEF,          /* class definition             */
 
     NODE,               /* only for structure matching  */
     ;
