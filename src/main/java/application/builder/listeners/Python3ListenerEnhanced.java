@@ -44,7 +44,11 @@ public class Python3ListenerEnhanced extends Python3BaseListener{
 	/* */
 	
 	@Override
+<<<<<<< HEAD
 	public void enterSingle_input(Python3Parser.Single_inputContext ctx) {
+=======
+	public void enterFile_input(Python3Parser.File_inputContext ctx) {
+>>>>>>> c1d808f9efd0081fcccd322534dcf9ab1adf36ba
 		Vertex headVertex = createVertexWithCtx(VertexType.HEAD, ctx);
 		cdg.addVertex(headVertex);
 		vertexStack.push(headVertex);
@@ -53,7 +57,11 @@ public class Python3ListenerEnhanced extends Python3BaseListener{
 	public void exitSingle_input(Python3Parser.Single_inputContext ctx) {
 		vertexStack.pop();
 	}
+<<<<<<< HEAD
 /*
+=======
+	
+>>>>>>> c1d808f9efd0081fcccd322534dcf9ab1adf36ba
 	@Override
 	public void enterExpr_stmt(Python3Parser.Expr_stmtContext ctx) {
 		addVertexWithCtxAndEdgeThenPushToStack(VertexType.EXPR_STAT, ctx);
