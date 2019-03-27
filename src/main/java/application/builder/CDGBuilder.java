@@ -12,6 +12,11 @@ import java.io.File;
 
 public class CDGBuilder implements GraphBuilder {
 
+    /**
+     * 从源程序字符串建立程序依赖图
+     * @param sourceCode 源程序字符串
+     * @return sourceCoded对应的程序依赖图
+     */
     @Override
     public CDG buildFrom(String sourceCode) {
         CDG cdg = new CDG();
@@ -24,6 +29,12 @@ public class CDGBuilder implements GraphBuilder {
 
     }
 
+    /**
+     * 从源程序文件构建程序依赖图
+     * @param file 源程序文件
+     * @return file对应的程序依赖图
+     * @throws FileNotFoundException 文件不存在时抛出异常
+     */
     @Override
     public CDG buildFrom(File file) throws FileNotFoundException {
         String sourceCode = readStringFrom(file);
