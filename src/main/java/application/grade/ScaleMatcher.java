@@ -5,24 +5,25 @@ import graph.CDG;
 import graph.VertexType;
 
 public class ScaleMatcher {
-    private static double funcDef          = FUNC_DEF;             /* function definition          */
-    private static double declaration      = DECLARATION;          /* declaration                  */
-    private static double block            = BLOCK;                /* block statement list         */
-    private static double exprStat         = EXPR_STAT;            /* expression statement         */
-    private static double iterStat         = ITER_STAT;            /* iteration statement          */
-    private static double jumpStat         = JUMP_STAT;            /* jump statement               */
-    private static double selStat          = SEL_STAT;             /* selection statement          */
-    private static double selClause        = SEL_CLAUSE;           /* selection clause             */
-    private static double structSpec       = STRUCT_SPEC;          /* struct or union specifier    */
-    private static double structDecList    = STRUCT_DEC_LIST;      /* struct declaration list      */
-    private static double structDec        = STRUCT_DEC;           /* struct declaration   */
+    private double funcDef          = FUNC_DEF;             /* function definition          */
+    private double declaration      = DECLARATION;          /* declaration                  */
+    private double block            = BLOCK;                /* block statement list         */
+    private double exprStat         = EXPR_STAT;            /* expression statement         */
+    private double iterStat         = ITER_STAT;            /* iteration statement          */
+    private double jumpStat         = JUMP_STAT;            /* jump statement               */
+    private double selStat          = SEL_STAT;             /* selection statement          */
+    private double selClause        = SEL_CLAUSE;           /* selection clause             */
+    private double structSpec       = STRUCT_SPEC;          /* struct or union specifier    */
+    private double structDecList    = STRUCT_DEC_LIST;      /* struct declaration list      */
+    private double structDec        = STRUCT_DEC;           /* struct declaration   */
 
     public static double grade(CDG tmpCDG, CDG stuCDG) {
         Scale tmpScale = new Scale(tmpCDG), stuScale = new Scale(stuCDG);
-        return getAllDistance(tmpScale, stuScale);
+        ScaleMatcher matcher = new ScaleMatcher();
+        return matcher.getAllDistance(tmpScale, stuScale);
     }
 
-    private static double getAllDistance(Scale tmpScale, Scale stuScale) {
+    private double getAllDistance(Scale tmpScale, Scale stuScale) {
         reapportionParameters(tmpScale);
         double score = 0;
         score += funcDef * getOneTypeDistance(
@@ -61,7 +62,7 @@ public class ScaleMatcher {
         return score;
     }
 
-    private static void reapportionParameters(Scale tmpScale) {
+    private  void reapportionParameters(Scale tmpScale) {
         if (tmpScale.get(VertexType.FUNC_DEF) <= 0)
             funcDef = 0;
         if (tmpScale.get(VertexType.DECLARATION) <= 0)
@@ -98,13 +99,13 @@ public class ScaleMatcher {
         structDec /= newPortionBase;
     }
 
-    private static double getPortionBase() {
+    private  double getPortionBase() {
         return funcDef + declaration + block + exprStat
                 + iterStat + jumpStat + selStat + selClause
                 + structSpec + structDecList + structDec;
     }
 
-    private static double getOneTypeDistance(int numTmp, int numStu) {
+    private  double getOneTypeDistance(int numTmp, int numStu) {
         if (0 == numStu) return 0;
         /* the return value should always less than 1 */
         if (numTmp < numStu) {

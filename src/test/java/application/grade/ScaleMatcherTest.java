@@ -78,7 +78,7 @@ class ScaleMatcherTest {
                 "               (SEL_CLAUSE EXPR_STAT))))))");
         CDG cdgStu = importCDGFrom("(HEAD FUNC_DEF)");
         double actual = ScaleMatcher.grade(cdgTmp, cdgStu);
-        assertEquals( SCALE_BASE / cdgTmp.howManyTypeVertexWithouHead(), actual);
+        assertEquals( SCALE_BASE / cdgTmp.howManyTypeVertexWithoutHead(), actual);
     }
 
     @Test
@@ -95,7 +95,7 @@ class ScaleMatcherTest {
                 "(FUNC_DEF" +
                 "   (BLOCK EXPR_STAT)))");
         double actual = ScaleMatcher.grade(cdgTmp, cdgStu);
-        double expected = (2 + 1.0/ 3) * SCALE_BASE / cdgTmp.howManyTypeVertexWithouHead();
+        double expected = (2 + 1.0/ 3) * SCALE_BASE / cdgTmp.howManyTypeVertexWithoutHead();
         assertEquals( expected, actual);
     }
 }

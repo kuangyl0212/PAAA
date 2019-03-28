@@ -15,7 +15,7 @@ public class CDG extends BaseGraph {
        Vertex vertex = new Vertex(type);
         return super.addVertex(vertex);
     }
-    public int howManyTypeVertexWithouHead() {
+    public int howManyTypeVertexWithoutHead() {
        HashSet<VertexType> types = new HashSet<>();
         for (Vertex v: vertexSet())
             if (v.getType() != VertexType.HEAD)
