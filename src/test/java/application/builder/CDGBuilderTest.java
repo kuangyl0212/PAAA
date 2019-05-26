@@ -1,6 +1,6 @@
 package application.builder;
 
-import application.config.Global;
+import application.config.DefaultConf;
 import application.config.LANG;
 import graph.Vertex;
 import graph.VertexType;
@@ -19,7 +19,7 @@ class CDGBuilderTest {
     private CDG sampleCDG;
 
     CDGBuilderTest() {
-        Global.setLAN(LANG.C);
+        DefaultConf.setLANG(LANG.C);
         builder = new CDGBuilder();
         sampleCDG = buildSampleCDG();
     }

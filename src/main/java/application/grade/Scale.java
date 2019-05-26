@@ -40,7 +40,7 @@ public class Scale {
         return 0;
     }
     public int get(String type) throws Throwable {
-        return vertexTypeCount.get(VertexType.getTypeFrom(type));
+        return vertexTypeCount.get(VertexType.valueOf(type));
     }
 
 }

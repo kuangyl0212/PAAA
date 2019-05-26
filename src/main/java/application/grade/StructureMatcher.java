@@ -1,5 +1,7 @@
 package application.grade;
 
+import application.config.DefaultConf;
+import application.config.Parameters;
 import graph.CDG;
 import graph.Vertex;
 import graph.VertexType;
@@ -25,10 +27,21 @@ class VertexTypeCount {
 }
 
 class Parameter {
-    double ITERATION;
-    double SELECTION;
-    double FUNCTION_DEF;
-    double OTHER;
+    double ITERATION = DefaultConf.getDefaultParameters().getParameterOfStructure("iteration");
+    double SELECTION = DefaultConf.getDefaultParameters().getParameterOfStructure("selection");
+    double FUNCTION_DEF = DefaultConf.getDefaultParameters().getParameterOfStructure("funcDef");
+    double OTHER = DefaultConf.getDefaultParameters().getParameterOfStructure("other");
+    double structureBase = DefaultConf.getDefaultParameters().getParameterOfStructure("structureBase");
+    Parameter(Parameters parameters) {
+        this.ITERATION = parameters.getParameterOfStructure("iteration");
+        this.SELECTION = parameters.getParameterOfStructure("selection");
+        this.FUNCTION_DEF = parameters.getParameterOfStructure("funcDef");
+        this.OTHER = parameters.getParameterOfStructure("other");
+        this.structureBase = parameters.getParameterOfStructure("structureBase");
+    }
+    Parameter() {
+        //Leave it default.
+    }
 }
 
 public class StructureMatcher {
@@ -44,7 +57,7 @@ public class StructureMatcher {
     /**
      *
      * Please note that the order of these two param do matters the result!
-     * @param CDG_OfStd The graph generated from standard answer
+     * @param CDG_OfStd The graph generated from template
      * @param CDG_OfStu The graph generated from student's answer
      */
     public StructureMatcher(CDG CDG_OfStd, CDG CDG_OfStu) {
@@ -72,8 +85,8 @@ public class StructureMatcher {
 
     }
 
-    public double grade() {
-        initParameter();
+    public double grade(Parameters parameters) {
+        initParameter(parameters);
 
         double result = 0;
         if (vertexTypeCountOfStd.iterations > 0)
@@ -92,8 +105,11 @@ public class StructureMatcher {
             result += parameter.OTHER
                     * ((double) matchedTypeCount.other
                     / vertexTypeCountOfStd.other);
+        return parameter.structureBase * result;
+    }
 
-        return STRUCTURE_BASE * result;
+    public double grade() {
+        return grade(DefaultConf.getDefaultParameters());
     }
 
     int howManyVertexesMatched() {
@@ -177,14 +193,14 @@ public class StructureMatcher {
         return a >= b ? a : b;
     }
 
-    private void initParameter() {
-        parameter = new Parameter();
+    private void initParameter(Parameters parameters) {
+        parameter = new Parameter(parameters);
         parameter.ITERATION =
                 vertexTypeCountOfStd.iterations == 0 ? 0 : ITERATION;
         parameter.SELECTION =
                 vertexTypeCountOfStd.selections == 0 ? 0 : SELECTION;
         parameter.FUNCTION_DEF =
-                vertexTypeCountOfStd.functionDef == 0 ? 0 : FUNCTION_DEF;
+                vertexTypeCountOfStd.functionDef == 0 ? 0 : application.config.structure.Parameter.FUNC_DEF;
         parameter.OTHER =
                 vertexTypeCountOfStd.other == 0 ? 0 : OTHER;
 

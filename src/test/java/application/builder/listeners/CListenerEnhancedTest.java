@@ -1,7 +1,7 @@
 package application.builder.listeners;
 
 import application.builder.ParserAdministrator;
-import application.config.Global;
+import application.config.DefaultConf;
 import application.config.LANG;
 import graph.CDG;
 import graph.Vertex;
@@ -23,7 +23,7 @@ class CListenerEnhancedTest {
     private ParseTreeWalker  walker;
 
     CListenerEnhancedTest() {
-        Global.setLAN(LANG.C);
+        DefaultConf.setLANG(LANG.C);
     }
 
     private String getDotStringFrom(String sourceCode) {

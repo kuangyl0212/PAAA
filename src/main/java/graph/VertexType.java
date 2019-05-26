@@ -23,6 +23,7 @@ public enum VertexType {
     NODE,               /* only for structure matching  */
     ;
 
+    @Deprecated
     public static VertexType getTypeFrom(String string) throws Throwable {
         switch (string) {
             case "HEAD":            return HEAD;

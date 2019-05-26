@@ -27,7 +27,7 @@ public class TreeVisitor extends TreeBaseVisitor<Integer> {
 
         Vertex nexVertex;
         try {
-            nexVertex = new Vertex(VertexType.getTypeFrom(label));
+            nexVertex = new Vertex(VertexType.valueOf(label));
             graph.addVertex(nexVertex);
             graph.addEdge(vertexStack.peek(), nexVertex);
         } catch (Throwable throwable) {
@@ -59,7 +59,7 @@ public class TreeVisitor extends TreeBaseVisitor<Integer> {
         String label = ctx.getChild(1).getText();
         Vertex newVertex;
         try {
-            newVertex = new Vertex(VertexType.getTypeFrom(label));
+            newVertex = new Vertex(VertexType.valueOf(label));
             graph.addVertex(newVertex);
             if (!vertexStack.empty()) {
                 graph.addEdge(vertexStack.peek(), newVertex);

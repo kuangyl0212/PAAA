@@ -1,25 +1,64 @@
 package application.grade;
 
-import static application.config.scale.Parameter.*;
+import application.config.Parameters;
 import graph.CDG;
 import graph.VertexType;
 
-public class ScaleMatcher {
-    private double funcDef          = FUNC_DEF;             /* function definition          */
-    private double declaration      = DECLARATION;          /* declaration                  */
-    private double block            = BLOCK;                /* block statement list         */
-    private double exprStat         = EXPR_STAT;            /* expression statement         */
-    private double iterStat         = ITER_STAT;            /* iteration statement          */
-    private double jumpStat         = JUMP_STAT;            /* jump statement               */
-    private double selStat          = SEL_STAT;             /* selection statement          */
-    private double selClause        = SEL_CLAUSE;           /* selection clause             */
-    private double structSpec       = STRUCT_SPEC;          /* struct or union specifier    */
-    private double structDecList    = STRUCT_DEC_LIST;      /* struct declaration list      */
-    private double structDec        = STRUCT_DEC;           /* struct declaration   */
+import static application.config.DefaultConf.getDefaultParameters;
 
+public class ScaleMatcher {
+    private double scaleBase;
+    private double funcDef;             /* function definition          */
+    private double declaration;          /* declaration                  */
+    private double block;                /* block statement list         */
+    private double exprStat;            /* expression statement         */
+    private double iterStat;            /* iteration statement          */
+    private double jumpStat;            /* jump statement               */
+    private double selectStat;             /* selection statement          */
+    private double selectClause;           /* selection clause             */
+    private double structSpec;          /* struct or union specifier    */
+    private double structDeclList;      /* struct declaration list      */
+    private double structDecl;           /* struct declaration   */
+
+    /**
+     * Scale Matcher Constructor
+     * Set every parameter of PAAA Scale Matcher.
+     * You can create different sessions for different parameters.
+     * @param parametersOfCurrentSession Parameter of Current Session
+     */
+    private ScaleMatcher(Parameters parametersOfCurrentSession) {
+        scaleBase = parametersOfCurrentSession.getParameterOfScale("scaleBase");
+
+        funcDef = parametersOfCurrentSession.getParameterOfScale("funcDef");
+        declaration = parametersOfCurrentSession.getParameterOfScale("declaration");
+        block = parametersOfCurrentSession.getParameterOfScale("block");
+        exprStat = parametersOfCurrentSession.getParameterOfScale("exprStat");
+        iterStat = parametersOfCurrentSession.getParameterOfScale("iterStat");
+        jumpStat = parametersOfCurrentSession.getParameterOfScale("jumpStat");
+        selectStat = parametersOfCurrentSession.getParameterOfScale("selectStat");
+        selectClause = parametersOfCurrentSession.getParameterOfScale("selectClause");
+        structSpec = parametersOfCurrentSession.getParameterOfScale("structSpec");
+        structDeclList = parametersOfCurrentSession.getParameterOfScale("structDeclList");
+        structDecl = parametersOfCurrentSession.getParameterOfScale("structDecl");
+    }
+
+    @Deprecated
     public static double grade(CDG tmpCDG, CDG stuCDG) {
         Scale tmpScale = new Scale(tmpCDG), stuScale = new Scale(stuCDG);
-        ScaleMatcher matcher = new ScaleMatcher();
+        ScaleMatcher matcher = new ScaleMatcher(getDefaultParameters());
+        return matcher.getAllDistance(tmpScale, stuScale);
+    }
+
+    /**
+     * Scale Grading Result
+     * @param tCDG template code dependency graph
+     * @param sCDG students' code dependency graph
+     * @param parametersOfCurrentSession Parameters of Current Session
+     * @return Scale Grading Result
+     */
+    public static double grade(CDG tCDG, CDG sCDG, Parameters parametersOfCurrentSession) {
+        Scale tmpScale = new Scale(tCDG), stuScale = new Scale(sCDG);
+        ScaleMatcher matcher = new ScaleMatcher(parametersOfCurrentSession);
         return matcher.getAllDistance(tmpScale, stuScale);
     }
 
@@ -44,25 +83,25 @@ public class ScaleMatcher {
         score += jumpStat * getOneTypeDistance(
                 tmpScale.get(VertexType.JUMP_STAT),
                 stuScale.get(VertexType.JUMP_STAT));
-        score += selStat * getOneTypeDistance(
+        score += selectStat * getOneTypeDistance(
                 tmpScale.get(VertexType.SEL_STAT),
                 stuScale.get(VertexType.SEL_STAT));
-        score += selClause * getOneTypeDistance(
+        score += selectClause * getOneTypeDistance(
                 tmpScale.get(VertexType.SEL_CLAUSE),
                 stuScale.get(VertexType.SEL_CLAUSE));
         score += structSpec * getOneTypeDistance(
                 tmpScale.get(VertexType.STRUCT_SPEC),
                 stuScale.get(VertexType.STRUCT_SPEC));
-        score += structDecList * getOneTypeDistance(
+        score += structDeclList * getOneTypeDistance(
                 tmpScale.get(VertexType.STRUCT_DEC_LIST),
                 stuScale.get(VertexType.STRUCT_DEC_LIST));
-        score += selClause * getOneTypeDistance(
+        score += selectClause * getOneTypeDistance(
                 tmpScale.get(VertexType.STRUCT_DEC),
                 stuScale.get(VertexType.STRUCT_DEC));
         return score;
     }
 
-    private  void reapportionParameters(Scale tmpScale) {
+    private void reapportionParameters(Scale tmpScale) {
         if (tmpScale.get(VertexType.FUNC_DEF) <= 0)
             funcDef = 0;
         if (tmpScale.get(VertexType.DECLARATION) <= 0)
@@ -76,15 +115,15 @@ public class ScaleMatcher {
         if (tmpScale.get(VertexType.JUMP_STAT) <= 0)
             jumpStat = 0;
         if (tmpScale.get(VertexType.SEL_STAT) <= 0)
-            selStat = 0;
+            selectStat = 0;
         if (tmpScale.get(VertexType.SEL_CLAUSE) <= 0)
-            selClause = 0;
+            selectClause = 0;
         if (tmpScale.get(VertexType.STRUCT_SPEC) <= 0)
             structSpec = 0;
         if (tmpScale.get(VertexType.STRUCT_DEC_LIST) <= 0)
-            structDecList = 0;
+            structDeclList = 0;
         if (tmpScale.get(VertexType.STRUCT_DEC) <= 0)
-            structDec = 0;
+            structDecl = 0;
         double newPortionBase = getPortionBase();
         funcDef /= newPortionBase;
         declaration /= newPortionBase;
@@ -92,25 +131,25 @@ public class ScaleMatcher {
         exprStat /= newPortionBase;
         iterStat /= newPortionBase;
         jumpStat /= newPortionBase;
-        selStat /= newPortionBase;
-        selClause /= newPortionBase;
+        selectStat /= newPortionBase;
+        selectClause /= newPortionBase;
         structSpec /= newPortionBase;
-        structDecList /= newPortionBase;
-        structDec /= newPortionBase;
+        structDeclList /= newPortionBase;
+        structDecl /= newPortionBase;
     }
 
-    private  double getPortionBase() {
+    private double getPortionBase() {
         return funcDef + declaration + block + exprStat
-                + iterStat + jumpStat + selStat + selClause
-                + structSpec + structDecList + structDec;
+                + iterStat + jumpStat + selectStat + selectClause
+                + structSpec + structDeclList + structDecl;
     }
 
     private  double getOneTypeDistance(int numTmp, int numStu) {
         if (0 == numStu) return 0;
         /* the return value should always less than 1 */
         if (numTmp < numStu) {
-            return SCALE_BASE * (double) numTmp / numStu;
+            return scaleBase * (double) numTmp / numStu;
         }
-        return SCALE_BASE * (double) numStu / numTmp;
+        return scaleBase * (double) numStu / numTmp;
     }
 }

@@ -1,10 +1,10 @@
 package application.grade.pygrade;
 
 import application.builder.CDGBuilder;
-import application.config.Global;
+import application.config.DefaultConf;
 import application.config.LANG;
 import application.grade.Grader;
-import application.util.file.StringReader;
+import application.util.file.Misc;
 import graph.CDG;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ public class AllInOneTest {
     final static int[] totalScore = new int[]{5, 10};
 
     AllInOneTest() throws FileNotFoundException {
-        Global.setLAN(LANG.PYTHON);
+        DefaultConf.setLANG(LANG.PYTHON);
 
         fileRootName = "src/test/resources/py-source-a/";
         File ans1File = new File(
@@ -63,7 +63,7 @@ public class AllInOneTest {
     }
 
     void readScore() throws FileNotFoundException {
-        String scoreString = StringReader.readStringFrom(
+        String scoreString = Misc.readStringFrom(
                 fileRootName + "scores_machine.txt");
         String[] lines = scoreString.split("\r\n|\r|\n");
         for (String line :
@@ -126,7 +126,7 @@ public class AllInOneTest {
 //        readScore();
         gradeAll();
         String actual = printThisScore();
-        String expected = StringReader.readStringFrom(
+        String expected = Misc.readStringFrom(
                 fileRootName + "scores_machine.txt");
         assertEquals(expected, actual);
     }

@@ -1,15 +1,17 @@
 package application.grade;
 
+import application.config.Parameters;
 import graph.CDG;
 import graph.VertexType;
 import org.junit.jupiter.api.Test;
 
 import static application.util.graph.Importer.importCDGFrom;
-import static application.config.scale.Parameter.*;
+//import static application.config.scale.Parameter.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ScaleMatcherTest {
+    private double SCALE_BASE = 0.5;
 
     @Test
     void oneVertexTypeCounterTest() {

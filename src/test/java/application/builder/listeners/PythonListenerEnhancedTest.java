@@ -1,20 +1,18 @@
 package application.builder.listeners;
 
 import application.builder.ParserAdministrator;
-import application.config.Global;
+import application.config.DefaultConf;
 import application.config.LANG;
 import graph.CDG;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static application.util.graph.Exporter.exportCDGAsLispStyle;
-import static application.util.file.StringReader.readStringFrom;
+import static application.util.file.Misc.readStringFrom;
 
 class PythonListenerEnhancedTest {
     private ParserAdministrator administrator;
@@ -23,7 +21,7 @@ class PythonListenerEnhancedTest {
     private CDG cdg;
 
     PythonListenerEnhancedTest() {
-        Global.setLAN(LANG.PYTHON);
+        DefaultConf.setLANG(LANG.PYTHON);
     }
 
     private void initTest(String sourceCode) {

@@ -1,8 +1,9 @@
 package application.builder;
 
 import application.builder.listeners.PythonListenerEnhanced;
-import application.config.Global;
+import application.config.DefaultConf;
 import application.builder.listeners.CListenerEnhanced;
+import application.config.LANG;
 import graph.CDG;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -21,8 +22,16 @@ public class ParserAdministrator {
     private ParseTree parseTree;
     private Lexer lexer;
     private Parser parser;
+    private LANG currentLang = DefaultConf.getDefaultLANG();
 
+    @Deprecated
     public ParserAdministrator(String inputString) {
+        this.inputString = inputString;
+        setAll();
+    }
+
+    public ParserAdministrator(LANG currentLanguage, String inputString) {
+        this.currentLang = currentLanguage;
         this.inputString = inputString;
         setAll();
     }
@@ -45,7 +54,7 @@ public class ParserAdministrator {
     }
 
     private void setLexerAndParser() {
-        switch (Global.getLAN()) {
+        switch (currentLang) {
             case C:
                 setLexer(new CLexer(charStream));
                 setTokenStream(new CommonTokenStream(lexer));
@@ -79,7 +88,7 @@ public class ParserAdministrator {
     }
 
     private void setParseTree() {
-        switch (Global.getLAN()) {
+        switch (currentLang) {
             case C:
                 parseTree = ((CParser)parser).compilationUnit();
                 break;
@@ -99,7 +108,7 @@ public class ParserAdministrator {
     }
 
     public ParseTreeListener getListener(CDG emptyCDG) {
-        switch (Global.getLAN()) {
+        switch (currentLang) {
             case C:
                 return new CListenerEnhanced(emptyCDG);
             case PYTHON:
